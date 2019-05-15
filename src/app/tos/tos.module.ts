@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TodoPage } from './todo.page';
-import { ComponentsModule } from '../components/components.module';
+import { TosPage } from './tos.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TodoPage
+    component: TosPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    ComponentsModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [TodoPage]
+  declarations: [TosPage]
 })
-export class TodoPageModule {}
+export class TosPageModule {}
