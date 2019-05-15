@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
   declarations: [ListComponent],
   imports: [
     CommonModule,
-    IonicModule,
+    IonicModule
   ],
   exports: [ListComponent],
 })

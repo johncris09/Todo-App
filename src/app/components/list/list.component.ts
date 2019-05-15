@@ -11,11 +11,12 @@ import { AlertController } from '@ionic/angular';
 export class ListComponent implements OnInit {
 
   items = [];
-  @Input('title') title: string;
   @Input('name') name: string;
+  @Input('title') title: string;
   @Input('allowDone') allowDone: boolean;
-  @Input('allowCrit') allowCrit: boolean;
+  @Input('allowTodo') allowTodo: boolean;
   @Input('allowLater') allowLater: boolean;
+  loading = true;
 
   constructor(
     private afAuth:  AngularFireAuth,
@@ -27,7 +28,7 @@ export class ListComponent implements OnInit {
     this.afAuth.authState.subscribe(user=>{
       if(!user)
         return;
-      this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.list, ref =>{
+      this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name, ref =>{
         return ref.orderBy('pos','desc');
       }).snapshotChanges().subscribe(colSnap => {
         this.items = [];
@@ -57,7 +58,7 @@ export class ListComponent implements OnInit {
             let now = new Date();
             let nowUtc = new Date(
               Date.UTC(
-                now.getUTCFullYear(), 
+                now.getUTCFullYear(),
                 now.getUTCMonth(),
                 now.getUTCDate(), 
                 now.getUTCHours(), 
@@ -65,7 +66,7 @@ export class ListComponent implements OnInit {
                 now.getUTCSeconds()
               )
             );
-            this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.list).add({
+            this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name).add({
               text: val.task,
               pos: this.items.length ? this.items[0].pos + 1 : 0,
               created: nowUtc,
@@ -85,7 +86,7 @@ export class ListComponent implements OnInit {
   }
 
   delete(item){
-    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.list+'/'+item.id).delete();
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+item.id).delete();
   }
 
   todo(item){
@@ -100,9 +101,9 @@ export class ListComponent implements OnInit {
     this.moveItem(item,'later');
   }
 
-  moveItem(item, list){
+  moveItem(item, list: string){
 
-    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/todo/'+item.id).delete();
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+item.id).delete();
     let id = item.id;
     delete item.id;
     this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+list, ref=>{
