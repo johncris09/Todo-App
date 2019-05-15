@@ -1,9 +1,11 @@
   <ion-toolbar color="secondary">
-    <ion-title>{{ title }}({{ items.length }})</ion-title> 
+    <ion-title>{{ title }} <span *ngIf="!loading">({{ items.length }})</span></ion-title> 
     
   </ion-toolbar>
   
   <ion-list> 
+
+    <ion-spinner *ngIf="loading" color="primary"></ion-spinner>
     <ion-item-sliding *ngFor="let item of items">
       <ion-item>
         <ion-label>{{ item.text }}</ion-label>

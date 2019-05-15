@@ -37,6 +37,7 @@ export class ListComponent implements OnInit {
           item['id'] = a.payload.doc.id;
           this.items.push(item);
         });
+        this.loading = false;
       });
     });
   }
