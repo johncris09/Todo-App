@@ -1,7 +1,7 @@
 import { Component, OnInit,  Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-list',
@@ -21,7 +21,9 @@ export class ListComponent implements OnInit {
   constructor(
     private afAuth:  AngularFireAuth,
     private db: AngularFirestore,
-    private alertCtrl : AlertController,
+    private alertCtrl : AlertController, 
+    private toastCtrl: ToastController,
+    public modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -41,7 +43,28 @@ export class ListComponent implements OnInit {
       });
     });
   }
+
+  async moveToList(path:string) {
+    const toast = await this.toastCtrl.create({
+      message: 'Moved to ' + path,
+      duration: 1500,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+    });
+    toast.present();
+  }
   
+  async crudMsgs(msg:string) {
+    const toast = await this.toastCtrl.create({
+      message: msg + ' successfully.',
+      duration: 1500,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+    });
+    toast.present();
+  }
+
+
   async add(){
     this.addOrEdit('New Task', val => this.handleAddItem(val.task)) ;
   }
@@ -114,8 +137,27 @@ export class ListComponent implements OnInit {
     },{ merge: true });
   }
 
-  delete(item){
-    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+item.id).delete();
+  async delete(item){
+    let alert = await this.alertCtrl.create({
+      header: 'Delete',
+      message: 'Do you want to delete ' + item.text + ' ?', 
+      buttons: [
+        {
+          text: 'Yes', 
+          handler: () => {
+            this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+item.id).delete();
+            this.crudMsgs("Deleted");     
+          }
+        },
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => { 
+          }
+        }
+      ]
+    });
+    alert.present(); 
   }
 
   todo(item){
@@ -144,6 +186,9 @@ export class ListComponent implements OnInit {
       });
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+list+'/'+id).set(item);
     });
+
+    this.moveToList(list);
+    
   }
 
   moveByOffset(index, offset) {

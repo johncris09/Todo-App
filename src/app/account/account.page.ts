@@ -9,15 +9,17 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 export class AccountPage implements OnInit {
 
-  user = {};
+  user: any = {};
 
   constructor(
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
   ) { 
+    
     this.afAuth.authState.subscribe(user=>{
       if(user){
         this.user = user;
-      }
+      } 
+      console.info(user);
     });
   }
 
@@ -25,8 +27,11 @@ export class AccountPage implements OnInit {
   }
 
   LogOut(){
-    this.afAuth.auth.signOut().then(()=>{
-      location.reload();
-    });
+    console.info(this.afAuth.auth.currentUser );
+    // this.afAuth.auth.signOut().then(()=>{
+    //   location.reload();
+    // });
   }
+
+  
 }
