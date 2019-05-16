@@ -41,49 +41,77 @@ export class ListComponent implements OnInit {
       });
     });
   }
-
+  
   async add(){
+    this.addOrEdit('New Task', val => this.handleAddItem(val.task)) ;
+  }
+
+  async edit(item){
+    this.addOrEdit('Edit Task', val => this.handleEditItem(val.task, item), item); 
+  }
+
+  async addOrEdit(header, handler, item?) {
     const alert = await this.alertCtrl.create({
-      header: 'New Task',
+      header,
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: () => {
-            console.log('Confirm Cancel');
+          handler: () => { 
           }
         },
         {
           text: 'Ok', 
-          handler: (val) => {
-            let now = new Date();
-            let nowUtc = new Date(
-              Date.UTC(
-                now.getUTCFullYear(),
-                now.getUTCMonth(),
-                now.getUTCDate(), 
-                now.getUTCHours(), 
-                now.getUTCMinutes(), 
-                now.getUTCSeconds()
-              )
-            );
-            this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name).add({
-              text: val.task,
-              pos: this.items.length ? this.items[0].pos + 1 : 0,
-              created: nowUtc,
-            });
-          }
+          handler,
         }
       ],
       inputs:[
         {
           name: 'task',
           type: 'text',
-          placeholder: 'Enter New Task'
+          placeholder: 'My Task',
+          value: item ? item.text : '',
         }
       ]
     });
-    return await alert.present();
+    await alert.present();
+    
+    alert.getElementsByTagName('input')[0].focus(); // text focus
+
+    alert.addEventListener('keydown', (val=>{
+      if(val.keyCode === 13 ){
+        handler({task: val.srcElement['value']}); 
+        alert.dismiss();
+      }
+    }));
+  }
+
+  handleAddItem(text: string){
+    if(!text.trim().length)
+      return;
+
+    let now = new Date();
+    let nowUtc = new Date(
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(), 
+        now.getUTCHours(), 
+        now.getUTCMinutes(), 
+        now.getUTCSeconds()
+      )
+    );
+    this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name).add({
+      text,
+      pos: this.items.length ? this.items[0].pos + 1 : 0,
+      created: nowUtc,
+    });
+  }
+
+  handleEditItem(text: string, item){
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+item.id).set({
+      text,
+    },{ merge: true });
   }
 
   delete(item){
@@ -116,6 +144,15 @@ export class ListComponent implements OnInit {
       });
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+list+'/'+id).set(item);
     });
+  }
+
+  moveByOffset(index, offset) {
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items[index].id).set({
+      pos: this.items[index+offset].pos
+    }, {merge: true});
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items[index+offset].id).set({
+      pos: this.items[index].pos
+    }, {merge: true});
   }
 
 }
