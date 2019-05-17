@@ -1,0 +1,80 @@
+<ion-toolbar color="primary">
+  <ion-title>
+    Todo Details
+  </ion-title>
+  <ion-buttons slot="start">
+    <ion-button  color="light" icon-only>
+      <ion-back-button defaultHref="todo"></ion-back-button>
+    </ion-button>
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-content> 
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3">
+        <ion-item>
+          <ion-checkbox title="Completed" color="primary"></ion-checkbox>
+        </ion-item> 
+      </ion-col>
+      <ion-col size="9">
+        <ion-item>
+          <ion-input clearInput value="Sample Task" placeholder="My Task"></ion-input>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    <ion-row>
+      <ion-col size="3">
+        <ion-item>
+          <ion-icon color="primary" name="calendar"></ion-icon>
+        </ion-item> 
+      </ion-col>
+      <ion-col size="9">
+        <ion-item>
+          <ion-label>Due on</ion-label>
+          <ion-datetime display-format="MMM/DD/YYYY" picker-format="MMM DD, YYYY"></ion-datetime>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    <ion-row>
+      <ion-col size="3">
+        <ion-item>
+          <ion-icon color="primary" name="alarm"></ion-icon>
+        </ion-item> 
+      </ion-col>
+      <ion-col size="9">
+        <ion-item>
+          <ion-label>Remind me at</ion-label>
+          <ion-datetime  displayFormat="h:mm A"></ion-datetime>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    <ion-row>
+      <ion-col size="3">
+        <ion-item>
+          <ion-icon color="primary" name="create"></ion-icon>
+        </ion-item> 
+      </ion-col>
+      <ion-col size="9">
+        <ion-item>
+          <ion-label>Remind me at</ion-label>
+          <ion-datetime  displayFormat="h:mm A"></ion-datetime>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    <ion-row>
+      <ion-col size="3">
+        <ion-item>
+          <ion-icon color="primary" name="create"></ion-icon>
+        </ion-item> 
+      </ion-col>
+      <ion-col size="9">
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea></ion-textarea>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    
+  </ion-grid>  
+</ion-content>  

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+ 
 
 @Component({
   selector: 'app-account',
@@ -12,9 +14,9 @@ export class AccountPage implements OnInit {
   user: any = {};
 
   constructor(
-    private afAuth: AngularFireAuth,
-  ) { 
-    
+    private afAuth: AngularFireAuth ,
+    private afs : AngularFirestore, 
+  ) {  
     this.afAuth.authState.subscribe(user=>{
       if(user){
         this.user = user;
@@ -26,12 +28,10 @@ export class AccountPage implements OnInit {
   ngOnInit() {
   }
 
-  LogOut(){
-    console.info(this.afAuth.auth.currentUser );
-    // this.afAuth.auth.signOut().then(()=>{
-    //   location.reload();
-    // });
-  }
-
-  
+  LogOut(){ 
+    // Uri xx = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+    this.afAuth.auth.signOut().then(()=>{
+      location.reload();
+    });
+  } 
 }

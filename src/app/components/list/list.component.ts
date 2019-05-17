@@ -2,6 +2,8 @@ import { Component, OnInit,  Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AlertController, ToastController, ModalController } from '@ionic/angular';
+import { TodoDetailsPage } from '../../todo-details/todo-details.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -23,7 +25,8 @@ export class ListComponent implements OnInit {
     private db: AngularFirestore,
     private alertCtrl : AlertController, 
     private toastCtrl: ToastController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,  
+    private router: Router, 
   ) { }
 
   ngOnInit() {
@@ -72,6 +75,22 @@ export class ListComponent implements OnInit {
   async edit(item){
     this.addOrEdit('Edit Task', val => this.handleEditItem(val.task, item), item); 
   }
+
+  async showTodoDetails(item){ 
+    // const todoDetails = await this.modalCtrl.create({
+    //   component: TodoDetailsPage,
+    //   componentProps: {
+    //     'prop1': 1,
+    //     'prop2': 2
+    //   }
+    // });
+
+    // return await todoDetails.present();
+
+    this.router.navigateByUrl('/todo-details'); 
+
+  }
+
 
   async addOrEdit(header, handler, item?) {
     const alert = await this.alertCtrl.create({

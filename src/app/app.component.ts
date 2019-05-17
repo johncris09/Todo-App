@@ -4,8 +4,7 @@ import { Platform, ModalController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-// import * as firebase from 'firebase/app';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private afAuth: AngularFireAuth,
     private modalCtrl: ModalController,
-    private router: Router,
+    private router: Router, 
   ) {
     this.initializeApp();
   }
@@ -31,17 +30,8 @@ export class AppComponent {
 
       this.afAuth.authState.subscribe(user => {
         if(!user){
-          this.router.navigateByUrl('/login');
-          // this.modalCtrl.create({ 
-          //   component: LoginPage,
-          // }).then(modal => {
-          //   this.loginModal = modal;
-          //   modal.present();
-          // });
-        }else {
-          // if(this.loginModal){
-          //   this.loginModal.dismiss(); 
-          // }
+          this.router.navigateByUrl('/login'); 
+        }else { 
           this.router.navigateByUrl('/tabs');
         }
       });

@@ -1,0 +1,22 @@
+.container {
+  position: relative;
+}
+  
+.bottomleft {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+  font-size: 18px;
+} 
+
+.bottomleft>img{
+  width: 165px;
+  height: 160px;
+  margin: auto;
+}
+
+.container>img { 
+  width: 100%;
+  height: auto;
+  opacity: 0.7;
+}

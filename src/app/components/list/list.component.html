@@ -5,9 +5,9 @@
   
   <ion-list> 
 
-    <ion-spinner *ngIf="loading" color="primary"></ion-spinner>
+    <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>
     <ion-item-sliding *ngFor="let item of items; let i = index">
-      <ion-item (click)="edit(item)"  lines="inset"> 
+      <ion-item (dblclick)="showTodoDetails(item)"  lines="inset"> 
         <ion-label>{{ item.text }}</ion-label>
       </ion-item>
       

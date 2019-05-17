@@ -4,9 +4,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-  <h1> Welcome {{ user.displayName }}</h1>
-  <ion-button color="primary" (click)="LogOut()">Log Out</ion-button>
+<ion-content padding> 
+    
+  
+  <ion-card>
+    <ion-card-header text-center> 
+      <div class="container">
+        <img src="https://png.pngtree.com/thumb_back/fw800/back_pic/03/67/35/4657b1890bb1a68.jpg" alt="background Picture" width="1000" height="300" />
+        <div class="bottomleft">
+          <!-- Sample Text -->
+          <img  src="https://cdn0.iconfinder.com/data/icons/avatar-15/512/ninja-512.png"/>
+        </div>
+      </div>
+      <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
+      <ion-card-title>Welcome {{ user.displayName }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <!-- Keep close to Nature's heart... and break clear away, once in awhile,
+      and climb a mountain or spend a week in the woods. Wash your spirit clean. -->
+    </ion-card-content>
+  </ion-card>     
+  <!-- <h1> Welcome {{ user.displayName }}</h1>
+  <h2> {{ user.email }} </h2>
+  <h3> {{ user.photoURL }} </h3> 
+   -->
+  <ion-fab vertical="top"  horizontal="end" edge slot="fixed">
+    <ion-fab-button color="medium" title="Log Out" (click)="LogOut()">
+      <ion-icon name="log-out"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

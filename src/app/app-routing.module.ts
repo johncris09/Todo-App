@@ -58,7 +58,9 @@ const routes: Routes = [
         pathMatch : 'full'
       }
     ]
-  }
+  },
+  { path: 'todo-details', loadChildren: './todo-details/todo-details.module#TodoDetailsPageModule' },
+   
 ];
 
 @NgModule({
