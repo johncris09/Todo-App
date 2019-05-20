@@ -18,10 +18,18 @@ import { LoginPage } from './login/login.page';
 import { LoginPageModule } from './login/login.module';
 import { TabsPageModule } from './tabs/tabs.module'; 
 import { TodoDetailsPageModule } from './todo-details/todo-details.module';
+import { TodoPage } from './todo/todo.page';
+import { TodoDetailsPage } from './todo-details/todo-details.page';
+
+
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [
+    AppComponent 
+  ],
+  entryComponents: [
+    AppComponent 
+  ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
@@ -30,8 +38,7 @@ import { TodoDetailsPageModule } from './todo-details/todo-details.module';
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     LoginPageModule,
-    TabsPageModule,
-    TodoDetailsPageModule
+    TabsPageModule
   ],
   providers: [
     StatusBar,

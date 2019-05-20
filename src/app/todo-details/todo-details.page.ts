@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todo-details',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoDetailsPage implements OnInit {
 
-  constructor() { }
+  constructor( 
+    public activeRoute: ActivatedRoute,
+  ){
+    
+  }
 
   ngOnInit() {
+    let dataRecv = this.activeRoute.snapshot.paramMap.get('id');
+    console.info(dataRecv);
+
   }
+ 
 
 }

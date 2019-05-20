@@ -25,6 +25,16 @@ const routes: Routes = [
           }
         ]
       },
+      { 
+        path: 'todo-details/:id', 
+        children:[
+          {
+            path:'',
+            loadChildren: './todo-details/todo-details.module#TodoDetailsPageModule' ,
+        
+          }
+        ]
+      },
       {
         path: 'later',
         children: [
@@ -59,8 +69,7 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'todo-details', loadChildren: './todo-details/todo-details.module#TodoDetailsPageModule' },
-   
+  
 ];
 
 @NgModule({

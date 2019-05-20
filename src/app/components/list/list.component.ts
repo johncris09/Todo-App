@@ -1,9 +1,10 @@
 import { Component, OnInit,  Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AlertController, ToastController, ModalController } from '@ionic/angular';
+import { AlertController, ToastController, ModalController, NavController } from '@ionic/angular';
 import { TodoDetailsPage } from '../../todo-details/todo-details.page';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-list',
@@ -27,6 +28,7 @@ export class ListComponent implements OnInit {
     private toastCtrl: ToastController,
     public modalCtrl: ModalController,  
     private router: Router, 
+    public navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -86,8 +88,10 @@ export class ListComponent implements OnInit {
     // });
 
     // return await todoDetails.present();
-
-    this.router.navigateByUrl('/todo-details'); 
+    
+    
+    // passing data to another page
+    this.router.navigateByUrl('/tabs/todo-details/'+item.id);
 
   }
 

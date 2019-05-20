@@ -4,7 +4,7 @@
   </ion-title>
   <ion-buttons slot="start">
     <ion-button  color="light" icon-only>
-      <ion-back-button defaultHref="todo"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/todo"></ion-back-button>
     </ion-button>
     <ion-back-button></ion-back-button>
   </ion-buttons>
@@ -14,7 +14,7 @@
     <ion-row>
       <ion-col size="3">
         <ion-item>
-          <ion-checkbox title="Completed" color="primary"></ion-checkbox>
+          <ion-checkbox mode="md" title="Completed" color="primary"></ion-checkbox>
         </ion-item> 
       </ion-col>
       <ion-col size="9">
@@ -48,33 +48,42 @@
           <ion-datetime  displayFormat="h:mm A"></ion-datetime>
         </ion-item>
       </ion-col> 
-    </ion-row>
+    </ion-row> 
     <ion-row>
       <ion-col size="3">
         <ion-item>
-          <ion-icon color="primary" name="create"></ion-icon>
+          <ion-icon color="warning" name="create"></ion-icon>
         </ion-item> 
       </ion-col>
       <ion-col size="9">
         <ion-item>
-          <ion-label>Remind me at</ion-label>
-          <ion-datetime  displayFormat="h:mm A"></ion-datetime>
-        </ion-item>
-      </ion-col> 
-    </ion-row>
-    <ion-row>
-      <ion-col size="3">
-        <ion-item>
-          <ion-icon color="primary" name="create"></ion-icon>
-        </ion-item> 
-      </ion-col>
-      <ion-col size="9">
-        <ion-item>
-          <ion-label position="floating">Description</ion-label>
+          <ion-label position="floating">Note</ion-label>
           <ion-textarea></ion-textarea>
         </ion-item>
       </ion-col> 
     </ion-row>
-    
-  </ion-grid>  
+  </ion-grid> 
+  
 </ion-content>  
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col> 
+          <ion-item>
+            <ion-label position="floating">Add a comment</ion-label>
+            <ion-textarea></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row> 
+    </ion-grid>  
+  </ion-toolbar> 
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button title="Delete todo">
+        <ion-icon name="trash" color="danger" mode="md" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-footer>
