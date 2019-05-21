@@ -2,7 +2,7 @@ import { Component, OnInit,  Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AlertController, ToastController, ModalController, NavController } from '@ionic/angular';
-import { TodoDetailsPage } from '../../todo-details/todo-details.page';
+
 import { Router } from '@angular/router';
 
 
@@ -79,20 +79,9 @@ export class ListComponent implements OnInit {
   }
 
   async showTodoDetails(item){ 
-    // const todoDetails = await this.modalCtrl.create({
-    //   component: TodoDetailsPage,
-    //   componentProps: {
-    //     'prop1': 1,
-    //     'prop2': 2
-    //   }
-    // });
-
-    // return await todoDetails.present();
     
+    this.router.navigateByUrl('/tabs/'+this.name+'/todo-details/'+item.id+'/'+item.pos);
     
-    // passing data to another page
-    this.router.navigateByUrl('/tabs/todo-details/'+item.id);
-
   }
 
 

@@ -25,16 +25,6 @@ const routes: Routes = [
           }
         ]
       },
-      { 
-        path: 'todo-details/:id', 
-        children:[
-          {
-            path:'',
-            loadChildren: './todo-details/todo-details.module#TodoDetailsPageModule' ,
-        
-          }
-        ]
-      },
       {
         path: 'later',
         children: [
@@ -59,6 +49,15 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: './account/account.module#AccountPageModule'
+          }
+        ]
+      },
+      {
+        path: ':path/todo-details/:id/:pos',
+        children: [
+          {
+            path: '',
+            loadChildren: './todo-details/todo-details.module#TodoDetailsPageModule'
           }
         ]
       },
