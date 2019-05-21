@@ -138,8 +138,10 @@ export class ListComponent implements OnInit {
     );
     this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name).add({
       text,
-      pos: this.items.length ? this.items[0].pos + 1 : 0,
-      created: nowUtc,
+      pos:      this.items.length ? this.items[0].pos + 1 : 0,
+      created:  nowUtc,
+      dueDate:  null,
+      remindAt: null,
     });
   }
 

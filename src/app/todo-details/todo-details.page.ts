@@ -13,7 +13,9 @@ export class TodoDetailsPage implements OnInit {
   
   items = []; 
   @Input('name') name: string;
-  todoName: string;
+  private todoName: string;
+  private todoCal: string;
+  private todoTime: string;
 
   constructor( 
     public activeRoute: ActivatedRoute,
@@ -39,16 +41,50 @@ export class TodoDetailsPage implements OnInit {
        ref => ref.where('pos','==',parseInt(this.items['pos'])),
       )
         .valueChanges()
-        .subscribe(val=>
-          this.items['text'] = val['0']['text']
-        );
+        .subscribe(val => {
+          this.items['created'] = val['0']['created'];
+          this.items['text'] = val['0']['text'];
+          this.items['dueDate'] = val['0']['dueDate'];
+          this.items['remindAt'] = val['0']['remindAt']; 
+
+          this.todoCal = this.items['dueDate'];
+          this.todoTime = this.items['remindAt'];
+        });
+      
     });  
   } 
 
-  updateTodo(item?){
-    console.info(this.todoName);
+  updateTodo(item?){ 
+    let todoName = this.todoName;
+    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      text: todoName
+    }, {merge: true});
     
   }
 
+  updateTodoCal(){ 
+    var date = new Date(this.todoCal);
+    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      dueDate: (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear()
+    }, {merge: true}); 
+    
+  }       
+   
+  getFormattedDate(date) { 
+    var year  = date.getFullYear(); 
+    var month = (1 + date.getMonth()).toString(); 
+    month     = month.length > 1 ? month : '0' + month; 
+    var day   = date.getDate().toString(); 
+    day       = day.length > 1 ? day : '0' + day; 
+    return year + '/' + month + '/' + day; 
+  } 
+  
+  updateTodoTime(){
+    
+  } 
+
+  showItem(){
+    
+  }
   
 }

@@ -19,7 +19,7 @@
         </ion-col>
         <ion-col size="9">
           <ion-item>
-            <ion-input [(ngModel)]="todoName" (ionChange)="updateTodo(items.text)"  value="{{ items.text }}" placeholder="My Task"></ion-input>
+            <ion-input [(ngModel)]="todoName" (keyup.enter)="updateTodo(items.text)"  value="{{ items.text }}" placeholder="My Task"></ion-input>
           </ion-item>
         </ion-col> 
       </ion-row>
@@ -32,7 +32,7 @@
         <ion-col size="9">
           <ion-item>
             <ion-label>Due on</ion-label>
-            <ion-datetime display-format="MMM/DD/YYYY" picker-format="MMM DD, YYYY"></ion-datetime>
+            <ion-datetime [(ngModel)]="todoCal"   (ionChange)="updateTodoCal()" display-format="MMMM/DD/YYYY" picker-format="MMM DD, YYYY"></ion-datetime>
           </ion-item>
         </ion-col> 
       </ion-row>
@@ -45,7 +45,7 @@
         <ion-col size="9">
           <ion-item>
             <ion-label>Remind me at</ion-label>
-            <ion-datetime  displayFormat="h:mm A"></ion-datetime>
+            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime()" displayFormat="hh:mm:ss A" picker-format="hh mm ss A"></ion-datetime>
           </ion-item>
         </ion-col> 
       </ion-row> 
