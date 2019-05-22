@@ -43,15 +43,20 @@ export class TodoDetailsPage implements OnInit {
       )
         .valueChanges()
         .subscribe(val => {
+ 
           this.items['created']   = val['0']['created'];
           this.items['text']      = val['0']['text'];
           this.items['dueDate']   = val['0']['dueDate'];
           this.items['remindAt']  = val['0']['remindAt']; 
-          this.items['note']      = val[0]['note'];
+          this.items['note']      = val['0']['note'];
+          this.items['comments']   = val['0']['comments'];
+          this.items['subTasks']   = val['0']['subTasks']; 
 
           this.todoCal    = this.items['dueDate'];
           this.todoTime   = this.items['remindAt'];
           this.todoNote   = this.items['note'];
+
+          console.info(this.items['subTasks'])
         });
       
     });  

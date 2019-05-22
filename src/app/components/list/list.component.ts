@@ -143,8 +143,8 @@ export class ListComponent implements OnInit {
       dueDate:  null,
       remindAt: null,
       note:     null,
-      subTask:  [],
-      comments: [{}]
+      subTasks:  [],
+      comments: []
     });
   }
 
