@@ -45,7 +45,7 @@
         <ion-col size="9">
           <ion-item>
             <ion-label>Remind me at</ion-label>
-            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime()" displayFormat="hh:mm:ss A" picker-format="hh mm ss A"></ion-datetime>
+            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime()" displayFormat="hh-mm-ss A" picker-format="hh mm ss A"></ion-datetime>
           </ion-item>
         </ion-col> 
       </ion-row> 
@@ -57,8 +57,8 @@
         </ion-col>
         <ion-col size="9">
           <ion-item>
-            <ion-label position="floating">Note</ion-label>
-            <ion-textarea></ion-textarea>
+            <ion-label  position="floating">Note</ion-label>
+            <ion-textarea [(ngModel)]="todoNote" (keyup.enter)="updateTodoNote()"></ion-textarea>
           </ion-item>
         </ion-col> 
       </ion-row>

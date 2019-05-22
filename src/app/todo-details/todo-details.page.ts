@@ -16,6 +16,7 @@ export class TodoDetailsPage implements OnInit {
   private todoName: string;
   private todoCal: string;
   private todoTime: string;
+  private todoNote: string;
 
   constructor( 
     public activeRoute: ActivatedRoute,
@@ -42,13 +43,15 @@ export class TodoDetailsPage implements OnInit {
       )
         .valueChanges()
         .subscribe(val => {
-          this.items['created'] = val['0']['created'];
-          this.items['text'] = val['0']['text'];
-          this.items['dueDate'] = val['0']['dueDate'];
-          this.items['remindAt'] = val['0']['remindAt']; 
+          this.items['created']   = val['0']['created'];
+          this.items['text']      = val['0']['text'];
+          this.items['dueDate']   = val['0']['dueDate'];
+          this.items['remindAt']  = val['0']['remindAt']; 
+          this.items['note']      = val[0]['note'];
 
-          this.todoCal = this.items['dueDate'];
-          this.todoTime = this.items['remindAt'];
+          this.todoCal    = this.items['dueDate'];
+          this.todoTime   = this.items['remindAt'];
+          this.todoNote   = this.items['note'];
         });
       
     });  
@@ -69,22 +72,23 @@ export class TodoDetailsPage implements OnInit {
     }, {merge: true}); 
     
   }       
-   
-  getFormattedDate(date) { 
-    var year  = date.getFullYear(); 
-    var month = (1 + date.getMonth()).toString(); 
-    month     = month.length > 1 ? month : '0' + month; 
-    var day   = date.getDate().toString(); 
-    day       = day.length > 1 ? day : '0' + day; 
-    return year + '/' + month + '/' + day; 
-  } 
-  
-  updateTodoTime(){
     
+  // need to fix
+  updateTodoTime(){
+    var time = new Date(this.todoTime); 
+    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      remindAt: time.getHours()  + '-' + time.getMinutes() + '-' + time.getSeconds() 
+    }, {merge: true}); 
   } 
 
+  updateTodoNote(){
+    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      note : this.todoNote
+    }, {merge: true}); 
+  }
+
   showItem(){
-    
+    this.todoTime = this.items['remindAt'];
   }
   
 }
