@@ -58,12 +58,25 @@
         <ion-col size="9">
           <ion-item>
             <ion-label  position="floating">Note</ion-label>
-            <ion-textarea [(ngModel)]="todoNote" (keyup.enter)="updateTodoNote()"></ion-textarea>
+            <ion-textarea color="primary" [(ngModel)]="todoNote" rows="1" (keyup)="updateTodoNote()"></ion-textarea>
           </ion-item>
         </ion-col> 
       </ion-row>
-    </ion-grid> 
-    
+      <ion-row>
+        <ion-col size="3">
+          <ion-item>
+            <ion-button fill="clear">
+              <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+          </ion-item> 
+        </ion-col>
+        <ion-col size="9">
+          <ion-item>
+            <ion-input  placeholder="Add Subtask"></ion-input>
+          </ion-item>
+        </ion-col> 
+      </ion-row>
+    </ion-grid>  
   </ion-content>  
   <ion-footer>
     <ion-toolbar>
