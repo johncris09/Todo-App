@@ -19,6 +19,7 @@ export class TodoDetailsPage implements OnInit {
   private todoTime: string;
   private todoNote: string;
   private todoComment: string;
+  private todoSubtask: string;
   comment = [];
   user: any = {};
 
@@ -47,9 +48,7 @@ export class TodoDetailsPage implements OnInit {
         ref => ref.where('pos','==',parseInt(this.items['pos'])),
       )
         .valueChanges()
-        .subscribe(val => {
-          console.info(val[0]['comments'][0]);
-
+        .subscribe(val => { 
           this.items['created']   = val['0']['created'];
           this.items['text']      = val['0']['text'];
           this.items['dueDate']   = val['0']['dueDate'];
@@ -95,11 +94,7 @@ export class TodoDetailsPage implements OnInit {
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       note : this.todoNote
     }, {merge: true}); 
-  }
-
-  showItem(){
-    this.todoTime = this.items['remindAt'];
-  }
+  } 
 
   // adding comment
   addComment(){  
@@ -127,8 +122,44 @@ export class TodoDetailsPage implements OnInit {
       }];
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
         comments : this.items['comments'].concat(comment)
-      }, {merge: true});  
+      }, {merge: true}); 
+      this.todoComment = null; 
     });
   }
 
+  deleteComment(indexComment,itemId?){  
+    var deletecomments = this.items['comments'].splice(indexComment,1); 
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      comments : this.items['comments']
+    }, {merge: true});  
+  }
+
+  addSubtask(){
+
+    console.info();
+    if(this.todoSubtask == undefined)
+      return
+    if(!this.todoSubtask.trim().length)
+      return
+    
+    var subTask = [{
+      "content"   : this.todoSubtask,
+      "status"    : false
+    }];
+     
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      subTasks : this.items['subTasks'].concat(subTask)
+    }, {merge: true}); 
+    this.todoSubtask = null;  
+  }
+
+  deleteSubtask(subtaskIndex,itemId){
+    this.items['subTasks'].splice(subtaskIndex,1); 
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      subTasks : this.items['subTasks']
+    }, {merge: true});  
+  }
+  deleteTodo(){
+    
+  }
 }
