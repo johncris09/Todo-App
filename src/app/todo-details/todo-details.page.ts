@@ -48,7 +48,7 @@ export class TodoDetailsPage implements OnInit {
         ref => ref.where('pos','==',parseInt(this.items['pos'])),
       )
         .valueChanges()
-        .subscribe(val => { 
+        .subscribe(val => {   
           this.items['created']   = val['0']['created'];
           this.items['text']      = val['0']['text'];
           this.items['dueDate']   = val['0']['dueDate'];
@@ -159,7 +159,39 @@ export class TodoDetailsPage implements OnInit {
       subTasks : this.items['subTasks']
     }, {merge: true});  
   }
-  deleteTodo(){
-    
+
+
+  async deleteTodo(itemId){
+    let alert = await this.alertCtrl.create({
+      header: 'Delete',
+      message: 'Do you want to delete this Todo ?', 
+      buttons: [
+        {
+          text: 'Yes', 
+          handler: () => {
+            this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+itemId).delete();
+            this.crudMsgs("Deleted");  
+            this.router.navigateByUrl('');   
+          }
+        },
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => { 
+          }
+        }
+      ]
+    });
+    alert.present(); 
+  }
+
+  async crudMsgs(msg:string) {
+    const toast = await this.toastCtrl.create({
+      message: msg + ' successfully.',
+      duration: 1500,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+    });
+    toast.present();
   }
 }

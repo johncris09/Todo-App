@@ -86,7 +86,7 @@
         </ion-col>
         <ion-col size="9">
           <ion-item>
-            <ion-textarea  value="{{ subtask.content }}" rows="1"></ion-textarea>
+            <ion-input  value="{{ subtask.content }}" rows="1"></ion-input>
             <ion-button (click)="deleteSubtask(i,items.id)" title="Delete subtask" slot="end" fill="clear">
               <ion-icon slot="icon-only" color="primary"  name="close"></ion-icon>
             </ion-button>
@@ -114,7 +114,7 @@
       <ion-row> 
         <ion-col size="12"  *ngFor="let comment of items.comments; let i = index">
           <ion-item>
-            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-icon name="person" color="light" slot="start"></ion-icon>
             <ion-label>
               <h4>{{ comment.commentor }} <small>{{ comment.date }}</small> </h4>
               <p style="text-indent:  10px">{{ comment.comment}}</p>
@@ -144,13 +144,10 @@
           </ion-col>
         </ion-row> 
       </ion-grid>  
-    </ion-toolbar> 
+    </ion-toolbar>  
     <ion-toolbar>
-      <ion-buttons slot="end">
-        <ion-button  (click)="deleteTodo()" title="Delete todo">
-          <ion-icon name="trash"  color="danger" mode="md" ></ion-icon>
-        </ion-button>
-      </ion-buttons>
+      <ion-icon color="light"  (click)="deleteTodo(items.id)" title="Delete Todo" mode="md" name="trash" slot="end"></ion-icon> 
     </ion-toolbar>
-  
   </ion-footer>
+
+  

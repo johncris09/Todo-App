@@ -1,3 +1,23 @@
 .comment-close:hover{
   color: #f04141;
 }
+
+ion-icon[name="person"]{
+  background-color: #3171e0;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+ion-button.deleteTodo{ 
+  position: fixed; 
+  bottom: 10px; 
+  right: 10px;
+} 
+
+ion-icon[name="trash"]{ 
+  background-color: #f04141;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 30px;
+  margin: 10px;
+}
