@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController, ToastController, ModalContro
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { post } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-todo-details',
@@ -19,6 +20,8 @@ export class TodoDetailsPage implements OnInit {
   private todoNote: string;
   private todoComment: string;
   comment = [];
+  user: any = {};
+
 
   constructor( 
     public activeRoute: ActivatedRoute,
@@ -45,7 +48,8 @@ export class TodoDetailsPage implements OnInit {
       )
         .valueChanges()
         .subscribe(val => {
- 
+          console.info(val[0]['comments'][0]);
+
           this.items['created']   = val['0']['created'];
           this.items['text']      = val['0']['text'];
           this.items['dueDate']   = val['0']['dueDate'];
@@ -98,14 +102,33 @@ export class TodoDetailsPage implements OnInit {
   }
 
   // adding comment
-  addComment(){
-    var comment = {
-      comment: this.todoComment,
-      date: new Date(),
-      commentor: "me"
-    };
-    this.comment.push(comment);
-    console.info(this.comment);
+  addComment(){  
+    let now = new Date();
+    let nowUtc = new Date(
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(), 
+        now.getUTCHours(), 
+        now.getUTCMinutes(), 
+        now.getUTCSeconds()
+      )
+    );
+
+    // getting the user info
+    this.afAuth.authState.subscribe(user=>{
+      if(user){
+        this.user = user;
+      } 
+      var comment = [{
+        "comment"   : this.todoComment,
+        "date"      : nowUtc,
+        "commentor" : this.user.displayName
+      }];
+      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+        comments : this.items['comments'].concat(comment)
+      }, {merge: true});  
+    });
   }
-  
+
 }
