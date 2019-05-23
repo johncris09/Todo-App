@@ -1,6 +1,6 @@
   <ion-toolbar color="primary">
     <ion-title>{{ title }} <span *ngIf="!loading">({{ items.length }})</span></ion-title> 
-    
+     
   </ion-toolbar>
   
   <ion-list> 
@@ -36,15 +36,9 @@
       </ion-item-options>
 
     </ion-item-sliding>
-  
-    
+   
   </ion-list> 
-    <!-- <ion-fab class="fixed"  vertical="bottom" horizontal="end" edge slot="fixed">
-      <ion-fab-button title="Add Todo" (click)="add()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>  -->
-
-  <!-- <div class="fixed">
-    sdfgsdfg
-  </div> -->
+  <ion-icon color="light" (click)="add()" title="Add Todo" mode="md" name="add" slot="end"></ion-icon> 
+      
+  
+  

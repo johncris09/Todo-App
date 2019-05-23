@@ -1,9 +1,18 @@
 ion-spinner{
   padding-left: 60px;
 }
+ion-list{ 
+  position: relative;
+}
 
-div.fixed {
+ion-icon[name="add"]{ 
+  background-color: #3880ff;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 30px;
+  margin: 10px; 
   position: fixed; 
-  bottom: 0px;
-  right: 0px; 
-} 
+  bottom: 10px;
+  right: 10px;
+  
+}
