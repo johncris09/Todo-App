@@ -11,6 +11,7 @@
   </ion-toolbar>
   <ion-content> 
     <ion-grid>
+      <!-- Todo Name -->
       <ion-row>
         <ion-col size="3">
           <ion-item>
@@ -23,6 +24,8 @@
           </ion-item>
         </ion-col> 
       </ion-row>
+
+      <!-- Add Date Reminder -->
       <ion-row>
         <ion-col size="3">
           <ion-item>
@@ -36,6 +39,8 @@
           </ion-item>
         </ion-col> 
       </ion-row>
+
+      <!-- Add Time Reminder -->
       <ion-row>
         <ion-col size="3">
           <ion-item>
@@ -49,6 +54,8 @@
           </ion-item>
         </ion-col> 
       </ion-row> 
+
+      <!-- Add Todo Note -->
       <ion-row>
         <ion-col size="3">
           <ion-item>
@@ -62,6 +69,8 @@
           </ion-item>
         </ion-col> 
       </ion-row>
+      
+      <!-- List of Subtask -->
       <ion-row *ngFor="let counter of [1,2,3,4]">
         <ion-col size="3" >
           <ion-item>
@@ -74,6 +83,8 @@
           </ion-item>
         </ion-col> 
       </ion-row>
+
+      <!-- Add Subtask -->
       <ion-row>
         <ion-col size="3">
           <ion-item>
@@ -88,6 +99,8 @@
           </ion-item>
         </ion-col> 
       </ion-row>
+
+      <!-- Comment here -->
       <ion-row> 
         <ion-col size="12"  *ngFor="let counter of [1,2,3,4,5,6,7,8,9]" >
           <ion-item>
@@ -96,10 +109,9 @@
               <h4>John Cris <small>a few seconds ago</small></h4>
               <p style="text-indent:  10px">this is comment {{ counter }}</p>
             </ion-label>
-            <ion-button slot="end" fill="clear">
-              <ion-icon slot="icon-only" color="danger" name="close"></ion-icon>
-            </ion-button>
-            <!-- <ion-icon slot="end" name="close"></ion-icon> -->
+            <ion-button   slot="end" fill="clear">
+              <ion-icon slot="icon-only" color="primary" title="Delete comment" name="close"></ion-icon>
+            </ion-button> 
           </ion-item>
         </ion-col>   
       </ion-row>
@@ -112,9 +124,9 @@
           <ion-col> 
             <ion-item>
               <ion-label position="floating">Add a comment</ion-label>
-              <ion-textarea></ion-textarea>
+              <ion-textarea [(ngModel)]="todoComment" rows="1" ></ion-textarea>
               <ion-buttons  slot="end">
-                <ion-button title="Delete todo">
+                <ion-button (click)="addComment()" title="Send comment">
                   <ion-icon class="ion-margin-top"  name="send"  color="primary"></ion-icon>
                 </ion-button>
               </ion-buttons>

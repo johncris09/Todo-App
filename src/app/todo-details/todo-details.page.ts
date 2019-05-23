@@ -17,6 +17,8 @@ export class TodoDetailsPage implements OnInit {
   private todoCal: string;
   private todoTime: string;
   private todoNote: string;
+  private todoComment: string;
+  comment = [];
 
   constructor( 
     public activeRoute: ActivatedRoute,
@@ -39,7 +41,7 @@ export class TodoDetailsPage implements OnInit {
       if(!user)
         return;
       this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name,
-       ref => ref.where('pos','==',parseInt(this.items['pos'])),
+        ref => ref.where('pos','==',parseInt(this.items['pos'])),
       )
         .valueChanges()
         .subscribe(val => {
@@ -49,14 +51,13 @@ export class TodoDetailsPage implements OnInit {
           this.items['dueDate']   = val['0']['dueDate'];
           this.items['remindAt']  = val['0']['remindAt']; 
           this.items['note']      = val['0']['note'];
-          this.items['comments']   = val['0']['comments'];
-          this.items['subTasks']   = val['0']['subTasks']; 
+          this.items['comments']  = val['0']['comments'];
+          this.items['subTasks']  = val['0']['subTasks']; 
 
+          // Models
           this.todoCal    = this.items['dueDate'];
           this.todoTime   = this.items['remindAt'];
-          this.todoNote   = this.items['note'];
-
-          console.info(this.items['subTasks'])
+          this.todoNote   = this.items['note']; 
         });
       
     });  
@@ -94,6 +95,17 @@ export class TodoDetailsPage implements OnInit {
 
   showItem(){
     this.todoTime = this.items['remindAt'];
+  }
+
+  // adding comment
+  addComment(){
+    var comment = {
+      comment: this.todoComment,
+      date: new Date(),
+      commentor: "me"
+    };
+    this.comment.push(comment);
+    console.info(this.comment);
   }
   
 }
