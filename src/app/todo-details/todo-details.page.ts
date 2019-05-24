@@ -19,7 +19,7 @@ export class TodoDetailsPage implements OnInit {
   private todoTime: string;
   private todoNote: string;
   private todoComment: string;
-  private todoSubtask: string;
+  private todoSubtask :string;
   comment = [];
   user: any = {};
 
@@ -56,13 +56,13 @@ export class TodoDetailsPage implements OnInit {
             this.items['remindAt']  = val['0']['remindAt']; 
             this.items['note']      = val['0']['note'];
             this.items['comments']  = val['0']['comments'];
-            this.items['subTasks']  = val['0']['subTasks']; 
-
+            this.items['subTasks']  = val['0']['subTasks'];
             // Models
-            this.todoCal    = this.items['dueDate'];
-            var time        = new Date(this.items['remindAt'].toDate());
-            this.todoTime = time.toLocaleString();
-            this.todoNote   = this.items['note'];
+            this.todoCal      = this.items['dueDate'];
+            var time          = new Date(this.items['remindAt'].toDate());
+            this.todoTime     = time.toLocaleString();
+            this.todoNote     = this.items['note'];
+            this.todoSubtask  = this.items['subTasks'];
           }
           catch(err) {
             return;
@@ -183,7 +183,8 @@ export class TodoDetailsPage implements OnInit {
     
     var subTask = [{
       "content"   : this.todoSubtask,
-      "status"    : false
+      "status"    : false,
+      "pos"       : this.items['subTasks'].length ? this.items['subTasks'].length: 0,
     }];
      
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({

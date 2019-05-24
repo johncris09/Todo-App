@@ -56,7 +56,7 @@
       
       <!-- List of Subtask --> 
       <ion-row >
-        <ion-col size="12" *ngFor="let subtask of items.subTasks; let i = index" >
+        <ion-col size="12" *ngFor="let subtask of items.subTasks| orderBy: pos; let i = index" >
           <ion-item lines="inset">
             <div *ngIf="subtask.status == true" >
               <ion-checkbox slot="start" [checked]="true"  mode="md"  color="primary"></ion-checkbox> 
