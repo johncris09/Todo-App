@@ -193,6 +193,15 @@ export class TodoDetailsPage implements OnInit {
     this.todoSubtask = null;  
   }
 
+  toggleSubtasks(index,subtaskStatus){
+    var status = subtaskStatus ? false: true;
+    this.items['subTasks'][index]['status'] = status ;
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      subTasks : this.items['subTasks']
+    }, {merge: true}); 
+    this.todoSubtask = null;    
+  }
+
   deleteSubtask(subtaskIndex,itemId){
     this.items['subTasks'].splice(subtaskIndex,1); 
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
