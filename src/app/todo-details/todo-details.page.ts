@@ -20,6 +20,7 @@ export class TodoDetailsPage implements OnInit {
   private todoNote: string;
   private todoComment: string;
   private todoSubtask :string;
+  private todoListSubtask: string;
   comment = [];
   user: any = {};
 
@@ -173,6 +174,7 @@ export class TodoDetailsPage implements OnInit {
     }, {merge: true});  
   }
 
+
   addSubtask(){
 
     console.info();
@@ -191,6 +193,14 @@ export class TodoDetailsPage implements OnInit {
       subTasks : this.items['subTasks'].concat(subTask)
     }, {merge: true}); 
     this.todoSubtask = null;  
+  }
+
+  updateSelectedSubtask(index,subtaskContent){
+    this.items['subTasks'][index]['content'] = subtaskContent;
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      subTasks : this.items['subTasks']
+    }, {merge: true}); 
+    this.todoSubtask = null;
   }
 
   toggleSubtasks(index,subtaskStatus){

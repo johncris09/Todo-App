@@ -65,10 +65,10 @@
               <ion-checkbox slot="start" (click)="toggleSubtasks(i,subtask.status)"  [checked]="false"  mode="md"  color="primary"></ion-checkbox> 
             </div> 
             <div *ngIf="subtask.status == true" >
-              <ion-input id="strike"  value="{{ subtask.content }}" rows="1"></ion-input>
+              <ion-input (keyup.enter)="updateSelectedSubtask(i,$event.target.value)" id="strike"  value="{{ subtask.content }}" rows="1"></ion-input>
             </div>
             <div *ngIf="subtask.status == false" > 
-                <ion-input  value="{{ subtask.content }}" rows="1"></ion-input>  
+              <ion-input  (keyup.enter)="updateSelectedSubtask(i,$event.target.value)"  value="{{ subtask.content }}" rows="1"></ion-input>  
             </div> 
             
             <ion-button (click)="deleteSubtask(i,items.id)" title="Delete subtask" slot="end" fill="clear">
