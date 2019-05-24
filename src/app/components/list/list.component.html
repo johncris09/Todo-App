@@ -7,9 +7,10 @@
 
     <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>
     <ion-item-sliding *ngFor="let item of items; let i = index">
-      <ion-item (dblclick)="showTodoDetails(item)"  lines="inset">
+      <ion-item lines="inset">
+        <!-- <ion-label (dblclick)="showTodoDetails(item)">{{ item.text }}</ion-label> -->
         <ion-checkbox mode="ios" color="primary" (click)="complete(item)" slot="start" title="Move to Completed" color="primary"></ion-checkbox>
-        <ion-label>{{ item.text }}</ion-label>
+        <ion-input id="todo" (dblclick)="showTodoDetails(item)" value="{{ item.text }}" readonly></ion-input>
       </ion-item>
       
       <ion-item-options side="start" (ionSwipe)="complete(item)">

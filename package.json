@@ -36,6 +36,7 @@
     "firebase": "^6.0.2",
     "firebaseui": "^4.0.0",
     "firebaseui-angular": "^3.4.1",
+    "ngx-order-pipe": "^2.0.2",
     "promise-polyfill": "^8.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",

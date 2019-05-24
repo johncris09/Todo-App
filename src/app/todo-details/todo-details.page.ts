@@ -60,8 +60,9 @@ export class TodoDetailsPage implements OnInit {
 
             // Models
             this.todoCal    = this.items['dueDate'];
-            this.todoTime   = this.items['remindAt'];
-            this.todoNote   = this.items['note']; 
+            var time        = new Date(this.items['remindAt'].toDate());
+            this.todoTime = time.toLocaleString();
+            this.todoNote   = this.items['note'];
           }
           catch(err) {
             return;
@@ -80,6 +81,38 @@ export class TodoDetailsPage implements OnInit {
     }); 
   }
 
+  completed(item){
+    this.moveItem(item,'done');
+  }
+
+  moveItem(item, list: string){
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+item.id).delete();
+    let id = item.id;
+    delete item.id;
+    this.db.collection('users/'+this.afAuth.auth.currentUser.uid+'/'+list, ref=>{
+      return ref.orderBy('pos','desc').limit(1);
+    }).get().toPromise().then(qSnap=>{
+      item.pos = 0;
+      qSnap.forEach(a=>{
+        item.pos = a.data().pos + 1;
+      });
+      Object.setPrototypeOf(item, Object.prototype); // array to Object
+      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+list+'/'+id).set(item);
+    });
+    this.moveToList(list);
+    this.router.navigateByUrl('');  
+  }
+
+  async moveToList(path:string) {
+    const toast = await this.toastCtrl.create({
+      message: 'Moved to ' + path,
+      duration: 1500,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+    });
+    toast.present();
+  }
+
   updateTodoCal(){ 
     var date = new Date(this.todoCal);
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
@@ -92,7 +125,7 @@ export class TodoDetailsPage implements OnInit {
   updateTodoTime(){
     var time = new Date(this.todoTime); 
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      remindAt: time.getHours()  + '-' + time.getMinutes() + '-' + time.getSeconds() 
+      remindAt:  time  
     }, {merge: true}); 
   } 
 

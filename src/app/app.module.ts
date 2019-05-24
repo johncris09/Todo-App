@@ -22,6 +22,7 @@ import { TodoPage } from './todo/todo.page';
 import { TodoDetailsPage } from './todo-details/todo-details.page';
 
 
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { TodoDetailsPage } from './todo-details/todo-details.page';
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     LoginPageModule,
-    TabsPageModule
+    TabsPageModule,
+    OrderModule
   ],
   providers: [
     StatusBar,

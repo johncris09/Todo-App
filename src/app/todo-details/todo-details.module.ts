@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { TodoDetailsPage } from './todo-details.page';
 
+import { OrderModule } from 'ngx-order-pipe';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    OrderModule
   ],
   declarations: [TodoDetailsPage],
   entryComponents: [TodoDetailsPage],
