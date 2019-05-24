@@ -7,24 +7,25 @@
 
     <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>
     <ion-item-sliding *ngFor="let item of items; let i = index">
-      <ion-item (dblclick)="showTodoDetails(item)"  lines="inset"> 
+      <ion-item (dblclick)="showTodoDetails(item)"  lines="inset">
+        <ion-checkbox mode="ios" color="primary" (click)="complete(item)" slot="start" title="Move to Completed" color="primary"></ion-checkbox>
         <ion-label>{{ item.text }}</ion-label>
       </ion-item>
       
       <ion-item-options side="start" (ionSwipe)="complete(item)">
-        <ion-item-option color="success" (click)="complete(item)" *ngIf="allowDone" [expandable]="allowDone">
+        <ion-item-option title="Move to Completed" color="success" (click)="complete(item)" *ngIf="allowDone" [expandable]="allowDone">
           <ion-icon name="checkmark"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="secondary" (click)="todo(item)" *ngIf="allowTodo">
+        <ion-item-option color="secondary" title="Move to Todo" (click)="todo(item)" *ngIf="allowTodo">
           <ion-icon name="list"></ion-icon>
         </ion-item-option>  
-        <ion-item-option color="dark" (click)="later(item)" *ngIf="allowLater">
+        <ion-item-option color="dark" title="Move to Later" (click)="later(item)" *ngIf="allowLater">
           <ion-icon name="moon"></ion-icon>
         </ion-item-option> 
-        <ion-item-option color="medium" (click)="moveByOffset(i, -1)" *ngIf="i !== 0">
+        <ion-item-option color="medium" title="Move to Up" (click)="moveByOffset(i, -1)" *ngIf="i !== 0">
           <ion-icon name="arrow-up"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="medium" (click)="moveByOffset(i, 1)" *ngIf="i !== items.length-1">
+        <ion-item-option color="medium" title="Move to Down" (click)="moveByOffset(i, 1)" *ngIf="i !== items.length-1">
           <ion-icon name="arrow-down"></ion-icon>
         </ion-item-option>
       </ion-item-options>
