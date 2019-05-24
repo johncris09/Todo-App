@@ -70,12 +70,14 @@ export class TodoDetailsPage implements OnInit {
     });  
   } 
 
-  updateTodo(item?){ 
+  // Update todo Name
+  updateTodo(){ 
     let todoName = this.todoName;
-    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      text: todoName
-    }, {merge: true});
-    
+    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).update({
+      text: this.todoName
+    }).then(()=>{
+      this.crudMsgs("Updated")
+    }); 
   }
 
   updateTodoCal(){ 
