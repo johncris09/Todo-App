@@ -12,6 +12,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class AccountPage implements OnInit {
 
   user: any = {};
+  profile;
 
   constructor(
     private afAuth: AngularFireAuth ,
@@ -20,8 +21,10 @@ export class AccountPage implements OnInit {
     this.afAuth.authState.subscribe(user=>{
       if(user){
         this.user = user;
+        this.profile = user.photoURL;
       } 
       console.info(user);
+      console.info(this.profile+"?type=large");
 
       // console.info(user.photoURL);
     });
