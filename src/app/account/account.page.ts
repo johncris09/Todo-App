@@ -22,6 +22,8 @@ export class AccountPage implements OnInit {
         this.user = user;
       } 
       console.info(user);
+
+      // console.info(user.photoURL);
     });
   }
 
