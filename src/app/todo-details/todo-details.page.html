@@ -94,7 +94,7 @@
       <ion-row> 
         <ion-col size="12"  *ngFor="let comment of items.comments ; let i = index">
           <ion-item lines="inset">
-            <ion-icon name="person" color="light" slot="start"></ion-icon>
+            <img class="commentor" [src]="user.photoURL+'?type=large'" alt="Profile Picture"/>
             <ion-label>
               <h4>{{ comment.commentor }} <small>{{ comment.date.toDate() | date: 'MMM dd, yyyy HH:mm:ss a' }}</small> </h4>
               <p style="text-indent: 10px">{{ comment.comment}}</p>

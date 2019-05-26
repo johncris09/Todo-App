@@ -8,6 +8,19 @@ ion-icon[name="person"]{
   border-radius: 50%;
 }
 
+.commentor{
+  border-radius: 50%;
+  width:90px;
+  height:90px;
+  margin: 3px;
+  border:2px solid #fff; 
+  -moz-box-shadow: 0px 6px 5px #ccc;
+  -webkit-box-shadow: 0px 6px 5px #ccc;
+  box-shadow: 0px 6px 5px #ccc;
+  -moz-border-radius:190px;
+  -webkit-border-radius:190px; 
+}
+
 
 ion-icon[name="trash"]{ 
   background-color: #f04141;
@@ -23,3 +36,10 @@ ion-input#strike{
   text-decoration: line-through;
 } 
 
+h4{
+  font-weight: bold;
+}
+
+ion-icon[name="close"]:hover{
+  color: red;
+}

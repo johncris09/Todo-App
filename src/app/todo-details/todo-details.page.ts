@@ -34,7 +34,14 @@ export class TodoDetailsPage implements OnInit {
     public modalCtrl: ModalController,  
     private router: Router, 
     public navCtrl: NavController,
-  ){}
+  ){
+    this.afAuth.authState.subscribe(user=>{
+      if(user){
+        this.user = user; 
+      }   
+      console.info(user);
+    });
+  }
 
   ngOnInit() {
     let getAllParams  = this.activeRoute.snapshot.params;
