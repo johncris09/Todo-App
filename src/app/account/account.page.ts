@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AlertController, LoadingController } from '@ionic/angular';
  
 
 @Component({
@@ -11,32 +12,45 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 export class AccountPage implements OnInit {
 
-  user: any = {};
-  profile;
+  user: any = {}; 
 
   constructor(
     private afAuth: AngularFireAuth ,
     private afs : AngularFirestore, 
+    private alertController: AlertController,
+    private loadingController: LoadingController,
   ) {  
     this.afAuth.authState.subscribe(user=>{
       if(user){
-        this.user = user;
-        this.profile = user.photoURL;
-      } 
+        this.user = user; 
+      }   
       console.info(user);
-      console.info(this.profile+"?type=large");
-
-      // console.info(user.photoURL);
     });
   }
 
   ngOnInit() {
   }
 
-  LogOut(){ 
-    // Uri xx = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+  LogOut(){  
     this.afAuth.auth.signOut().then(()=>{
       location.reload();
     });
+  } 
+
+  resetPassword(){
+    this.afAuth.auth.sendPasswordResetEmail(this.user.email).then(()=>{
+      this.presentLoading().then(()=>{
+        this.LogOut();
+      });
+    });
+  }
+
+  async presentLoading() { 
+    const loadingElement = await this.loadingController.create({
+      message: 'Reseting Your password...',
+      spinner: 'crescent',
+      duration: 2000
+    });
+    return await loadingElement.present();
   } 
 }

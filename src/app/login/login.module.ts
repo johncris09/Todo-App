@@ -1,20 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
-
-import { IonicModule } from '@ionic/angular';
-
-import { LoginPage } from './login.page';
-
+import { Routes, RouterModule } from '@angular/router'; 
+import { IonicModule } from '@ionic/angular'; 
+import { LoginPage } from './login.page'; 
 import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'popup',
-  // signInOptions: [
-  //   firebase.auth.EmailAuthProvider.PROVIDER_ID
-  // ],
+  signInFlow: 'popup', 
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     {

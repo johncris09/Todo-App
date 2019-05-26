@@ -2,23 +2,23 @@
   <ion-toolbar color="primary">
     <ion-title>Profile</ion-title>
   </ion-toolbar>
-</ion-header>
-
+</ion-header> 
 <ion-content> 
   <ion-card>
     <ion-card-header> 
-      <img  id="profilePic" [src]="user.photoURL+'?type=large'" alt="Profile Picture" >
-      
+      <img  id="profilePic" [src]="user.photoURL+'?type=large'" alt="Profile Picture" > 
     </ion-card-header>
     <ion-card-content text-center> 
       <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
-      <ion-card-title>{{ user.displayName }}</ion-card-title>
+      <ion-card-title>{{ user.displayName }}</ion-card-title> 
+      <ion-button shape="round"  (click)="resetPassword()" fill="outline">Reset Password</ion-button><br/>
+      <ion-text color="danger">Goto to your email after reseting your password.</ion-text>
     </ion-card-content>
+
   </ion-card> 
   <ion-fab vertical="top"  horizontal="end" edge slot="fixed">
     <ion-fab-button color="medium" title="Log Out" (click)="LogOut()">
       <ion-icon name="log-out"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
-
+  </ion-fab> 
 </ion-content>
