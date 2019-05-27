@@ -23,8 +23,7 @@ export class AccountPage implements OnInit {
     this.afAuth.authState.subscribe(user=>{
       if(user){
         this.user = user; 
-      }   
-      console.info(user);
+      }    
     });
   }
 

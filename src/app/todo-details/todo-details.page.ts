@@ -38,8 +38,7 @@ export class TodoDetailsPage implements OnInit {
     this.afAuth.authState.subscribe(user=>{
       if(user){
         this.user = user; 
-      }   
-      console.info(user);
+      }
     });
   }
 
@@ -70,7 +69,7 @@ export class TodoDetailsPage implements OnInit {
             var time          = new Date(this.items['remindAt'].toDate());
             this.todoTime     = time.toLocaleString();
             this.todoNote     = this.items['note'];
-            this.todoSubtask  = this.items['subTasks'];
+            // this.todoSubtask  = this.items['subTasks'];
           }
           catch(err) {
             return;
@@ -198,8 +197,10 @@ export class TodoDetailsPage implements OnInit {
      
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       subTasks : this.items['subTasks'].concat(subTask)
-    }, {merge: true}); 
-    this.todoSubtask = null;  
+    }, {merge: true}).then(()=>{
+      this.todoSubtask = null;  
+    }); 
+    
   }
 
   updateSelectedSubtask(index,subtaskContent){
