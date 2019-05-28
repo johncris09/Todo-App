@@ -12,15 +12,15 @@ import { post } from 'selenium-webdriver/http';
 })
 export class TodoDetailsPage implements OnInit {
   
-  items = []; 
+  items = <any>[]; 
   @Input('name') name: string;
-  private todoName: string;
-  private todoCal: string;
-  private todoTime: string;
-  private todoNote: string;
-  private todoComment: string;
-  private todoSubtask :string;
-  private todoListSubtask: string;
+  public todoName: string;
+  public todoCal: string;
+  public todoTime: string;
+  public todoNote: string;
+  public todoComment: string;
+  public todoSubtask :string;
+  public todoListSubtask: string;
   comment = [];
   user: any = {};
 

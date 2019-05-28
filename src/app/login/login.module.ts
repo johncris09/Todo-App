@@ -8,7 +8,7 @@ import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'popup', 
+  // signInFlow: 'redirect', // popup                                                                                                                                                          
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     {
@@ -18,9 +18,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
         'user_likes',
         'user_friends'
       ],
+      
       customParameters: {
         'auth_type': 'reauthenticate'
-      },
+      }, 
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
     },
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
@@ -31,9 +32,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     },
     firebase.auth.PhoneAuthProvider.PROVIDER_ID, 
   ],
+  
   tosUrl: '/tos',
   privacyPolicyUrl: '/privacy',
-  credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+  credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
 };
 
 

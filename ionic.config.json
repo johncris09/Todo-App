@@ -1,5 +1,5 @@
 {
-  "name": "todo",
+  "name": "Todo App",
   "integrations": {
     "cordova": {}
   },

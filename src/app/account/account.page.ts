@@ -24,6 +24,7 @@ export class AccountPage implements OnInit {
       if(user){
         this.user = user; 
       }    
+      console.info(this.user);
     });
   }
 
