@@ -10,7 +10,7 @@
       <ion-item lines="inset">
         <!-- <ion-label (dblclick)="showTodoDetails(item)">{{ item.text }}</ion-label> -->
         <ion-checkbox mode="ios" color="primary" (click)="complete(item)" slot="start" title="Move to Completed" color="primary"></ion-checkbox>
-        <ion-input id="todo" (dblclick)="showTodoDetails(item)" value="{{ item.text }}" readonly></ion-input>
+        <ion-input id="todo" (click)="showTodoDetails(item)" value="{{ item.text }}" readonly></ion-input>
       </ion-item>
       
       <ion-item-options side="start" (ionSwipe)="complete(item)">

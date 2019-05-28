@@ -19,9 +19,7 @@ import { LoginPageModule } from './login/login.module';
 import { TabsPageModule } from './tabs/tabs.module'; 
 import { TodoDetailsPageModule } from './todo-details/todo-details.module';
 import { TodoPage } from './todo/todo.page';
-import { TodoDetailsPage } from './todo-details/todo-details.page';
-
-
+import { TodoDetailsPage } from './todo-details/todo-details.page'; 
 import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
@@ -44,7 +42,7 @@ import { OrderModule } from 'ngx-order-pipe';
   ],
   providers: [
     StatusBar,
-    SplashScreen,
+    SplashScreen, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

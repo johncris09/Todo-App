@@ -22,9 +22,9 @@ export class AccountPage implements OnInit {
   ) {  
     this.afAuth.authState.subscribe(user=>{
       if(user){
-        this.user = user; 
-      }    
-      console.info(this.user);
+        this.user = user;  
+      }     
+      this.user.profilePic = this.user.photoURL == null ?  'https://image.flaticon.com/icons/png/512/20/20863.png' : this.user.photoURL+'?type=large';  
     });
   }
 

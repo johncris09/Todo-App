@@ -39,6 +39,7 @@ export class TodoDetailsPage implements OnInit {
       if(user){
         this.user = user; 
       }
+      this.user.profilePic = this.user.photoURL == null ?  'https://image.flaticon.com/icons/png/512/20/20863.png' : this.user.photoURL+'?type=large'; 
     });
   }
 
@@ -144,6 +145,11 @@ export class TodoDetailsPage implements OnInit {
 
   // adding comment
   addComment(){  
+    
+    if(this.todoComment == undefined)
+      return
+    if(!this.todoComment.trim().length)
+      return
     let now = new Date();
     let nowUtc = new Date(
       Date.UTC(
@@ -168,8 +174,8 @@ export class TodoDetailsPage implements OnInit {
       }];
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
         comments : this.items['comments'].concat(comment)
-      }, {merge: true}); 
-      this.todoComment = null; 
+      }, {merge: true});
+      this.todoComment = null;  
     });
   }
 
@@ -182,8 +188,7 @@ export class TodoDetailsPage implements OnInit {
 
 
   addSubtask(){
-
-    console.info();
+ 
     if(this.todoSubtask == undefined)
       return
     if(!this.todoSubtask.trim().length)
