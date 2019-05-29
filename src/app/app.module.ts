@@ -20,7 +20,7 @@ import { TabsPageModule } from './tabs/tabs.module';
 import { TodoDetailsPageModule } from './todo-details/todo-details.module';
 import { TodoPage } from './todo/todo.page';
 import { TodoDetailsPage } from './todo-details/todo-details.page'; 
-import { OrderModule } from 'ngx-order-pipe';
+import { OrderModule } from 'ngx-order-pipe';   
 
 @NgModule({
   declarations: [
@@ -38,12 +38,13 @@ import { OrderModule } from 'ngx-order-pipe';
     AngularFireAuthModule,
     LoginPageModule,
     TabsPageModule,
-    OrderModule
+    OrderModule,   
+
   ],
   providers: [
     StatusBar,
     SplashScreen, 
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
   ],
   bootstrap: [AppComponent]
 })

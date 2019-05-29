@@ -5,7 +5,6 @@ import { AlertController, ToastController, ModalController, NavController } from
 
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -28,7 +27,8 @@ export class ListComponent implements OnInit {
     private toastCtrl: ToastController,
     public modalCtrl: ModalController,  
     private router: Router, 
-    public navCtrl: NavController,
+    public navCtrl: NavController, 
+
   ) { }
 
   ngOnInit() {
@@ -215,6 +215,19 @@ export class ListComponent implements OnInit {
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items[index+offset].id).set({
       pos: this.items[index].pos
     }, {merge: true});
+  } 
+
+
+  // ---------------------------
+  pressed(){
+    console.info("press");
   }
 
+  active(){
+    console.info("active");
+  }
+
+  released(){
+    console.info("release");
+  }
 }

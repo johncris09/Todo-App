@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { TodoDetailsComponent } from './todo-details/todo-details.component';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';  
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import { IonicModule } from '@ionic/angular';
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,  
   ],
   exports: [
     ListComponent,

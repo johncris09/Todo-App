@@ -40,7 +40,7 @@ export class TodoDetailsPage implements OnInit {
         this.user = user; 
       }
       this.user.profilePic = this.user.photoURL == null ?  'https://image.flaticon.com/icons/png/512/20/20863.png' : this.user.photoURL+'?type=large'; 
-    });
+    }); 
   }
 
   ngOnInit() {
@@ -64,20 +64,44 @@ export class TodoDetailsPage implements OnInit {
             this.items['remindAt']  = val['0']['remindAt']; 
             this.items['note']      = val['0']['note'];
             this.items['comments']  = val['0']['comments'];
-            this.items['subTasks']  = val['0']['subTasks'];
+            this.items['subTasks']  = val['0']['subTasks']; 
             // Models
-            this.todoCal      = this.items['dueDate'];
-            var time          = new Date(this.items['remindAt'].toDate());
-            this.todoTime     = time.toLocaleString();
+            this.todoCal      = this.items['dueDate']; 
             this.todoNote     = this.items['note'];
-            // this.todoSubtask  = this.items['subTasks'];
+            var time          = new Date(this.items['remindAt'].toDate());
+             
+            this.todoTime     = time.toLocaleString(); 
+ 
+            var reminder      = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true })
+             
+            var Interval = setInterval( () => { 
+              var timeNow       = new Date(); 
+              var alarm         = timeNow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true }); 
+                
+              if(reminder == alarm){
+                this.alamMsg("Alarm ").then(()=>{
+                  clearInterval(Interval);
+                });
+              }
+            }, 1000)
           }
           catch(err) {
             return;
           }    
         }); 
-    });  
-  } 
+    });   
+ 
+  }  
+  alarm(remindAt?, alarm?){
+    // console.info(remindAt);
+    console.info(alarm);
+    // if(remindAt == alarm){
+    //   return true;
+    // }else{
+    //   return false;
+    // }
+
+  }
 
   // Update todo Name
   updateTodo(){ 
@@ -137,10 +161,12 @@ export class TodoDetailsPage implements OnInit {
     }, {merge: true}); 
   } 
 
-  updateTodoNote(){
+  updateTodoNote(){ 
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       note : this.todoNote
-    }, {merge: true}); 
+    }, {merge: true}).then(()=>{
+      this.crudMsgs("Note updated ");
+    }); 
   } 
 
   // adding comment
@@ -174,8 +200,12 @@ export class TodoDetailsPage implements OnInit {
       }];
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
         comments : this.items['comments'].concat(comment)
-      }, {merge: true});
-      this.todoComment = null;  
+      }, {merge: true}).then(()=>{
+        this.crudMsgs("Comment added ").then(()=>{
+          this.todoComment = null; 
+        }); 
+      });
+      
     });
   }
 
@@ -183,7 +213,9 @@ export class TodoDetailsPage implements OnInit {
     var deletecomments = this.items['comments'].splice(indexComment,1); 
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       comments : this.items['comments']
-    }, {merge: true});  
+    }, {merge: true}).then(()=>{
+      this.crudMsgs("Deleted ");
+    });  
   }
 
 
@@ -203,17 +235,21 @@ export class TodoDetailsPage implements OnInit {
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       subTasks : this.items['subTasks'].concat(subTask)
     }, {merge: true}).then(()=>{
-      this.todoSubtask = null;  
-    }); 
-    
+      this.crudMsgs("Subtask added ")
+    }).then(()=>{
+      this.todoSubtask = null;
+    });  
   }
 
   updateSelectedSubtask(index,subtaskContent){
     this.items['subTasks'][index]['content'] = subtaskContent;
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       subTasks : this.items['subTasks']
-    }, {merge: true}); 
-    this.todoSubtask = null;
+    }, {merge: true}).then(()=>{
+      this.crudMsgs("Subtask updated ")
+    }).then(()=>{
+      this.todoSubtask = null;
+    }); 
   }
 
   toggleSubtasks(index,subtaskStatus){
@@ -229,7 +265,11 @@ export class TodoDetailsPage implements OnInit {
     this.items['subTasks'].splice(subtaskIndex,1); 
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       subTasks : this.items['subTasks']
-    }, {merge: true});  
+    }, {merge: true}).then(()=>{
+      this.crudMsgs("Subtask deleted ")
+    }).then(()=>{
+      this.todoSubtask = null;
+    }); 
   }
 
 
@@ -265,5 +305,15 @@ export class TodoDetailsPage implements OnInit {
       closeButtonText: 'Ok',
     });
     toast.present();
-  }
+  } 
+  async alamMsg(msg:string) {
+    const toast = await this.toastCtrl.create({
+      message: ' Alarm.',
+      duration: 60000,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+      position: 'middle',
+    });
+    toast.present();
+  } 
 }

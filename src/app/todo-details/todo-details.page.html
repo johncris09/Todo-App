@@ -49,7 +49,12 @@
           <ion-item lines="inset">
             <ion-icon color="primary" slot="start" name="bookmarks" mode="ios"></ion-icon>
             <ion-label  position="floating">Note</ion-label>
-            <ion-textarea  [(ngModel)]="todoNote" rows="3" (keyup.enter)="updateTodoNote()"></ion-textarea>
+            <ion-textarea  [(ngModel)]="todoNote" rows="2" (keyup.enter)="updateTodoNote()"></ion-textarea>
+            <ion-buttons  slot="end">
+              <ion-button (click)="updateTodoNote()" title="Save Note">
+                <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons>
           </ion-item> 
         </ion-col> 
       </ion-row>
@@ -105,28 +110,23 @@
           </ion-item>
         </ion-col>   
       </ion-row>
+      <!-- Add Comment -->
+      <ion-row>
+        <ion-col> 
+          <ion-item lines="inset">
+            <ion-label position="floating">Add a comment</ion-label>
+            <ion-textarea [(ngModel)]="todoComment" (keyup.enter)="addComment()"  rows="2" ></ion-textarea>
+            <ion-buttons  slot="end">
+              <ion-button (click)="addComment()" title="Send comment">
+                <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-col>
+      </ion-row> 
     </ion-grid>  
   </ion-content>  
-  <ion-footer>
-    <ion-toolbar>
-      <ion-grid>
-
-        <!-- Add Comment -->
-        <ion-row>
-          <ion-col> 
-            <ion-item lines="inset">
-              <ion-label position="floating">Add a comment</ion-label>
-              <ion-textarea [(ngModel)]="todoComment" rows="2" ></ion-textarea>
-              <ion-buttons  slot="end">
-                <ion-button (click)="addComment()" title="Send comment">
-                  <ion-icon class="ion-margin-top"  name="send"  color="primary"></ion-icon>
-                </ion-button>
-              </ion-buttons>
-            </ion-item>
-          </ion-col>
-        </ion-row> 
-      </ion-grid>  
-    </ion-toolbar>  
+  <ion-footer> 
     <ion-toolbar>
       <ion-icon color="light"  (click)="deleteTodo(items.id)" title="Delete Todo" mode="md" name="trash" slot="end"></ion-icon> 
     </ion-toolbar>

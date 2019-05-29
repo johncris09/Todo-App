@@ -8,13 +8,14 @@
     <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>
     <ion-item-sliding *ngFor="let item of items; let i = index">
       <ion-item lines="inset">
-        <!-- <ion-label (dblclick)="showTodoDetails(item)">{{ item.text }}</ion-label> -->
-        <ion-checkbox mode="ios" color="primary" (click)="complete(item)" slot="start" title="Move to Completed" color="primary"></ion-checkbox>
-        <ion-input id="todo" (click)="showTodoDetails(item)" value="{{ item.text }}" readonly></ion-input>
+         <ion-checkbox mode="ios" color="primary" (click)="complete(item)" slot="start" title="Move to Completed" color="primary"></ion-checkbox> 
+        <!-- ion-long-press [interval]="400" (onPressStart)="pressed()" (onPressing)="active()" (onPressEnd)="released()"  -->
+        <ion-input id="todo" (click)="showTodoDetails(item)" value="{{ item.text }}"  readonly></ion-input>
+         
       </ion-item>
       
-      <ion-item-options side="start" (ionSwipe)="complete(item)">
-        <ion-item-option title="Move to Completed" color="success" (click)="complete(item)" *ngIf="allowDone" [expandable]="allowDone">
+      <ion-item-options side="start" >
+        <ion-item-option title="Move to Completed" color="success" (click)="complete(item)" *ngIf="allowDone" >
           <ion-icon name="checkmark"></ion-icon>
         </ion-item-option>
         <ion-item-option color="secondary" title="Move to Todo" (click)="todo(item)" *ngIf="allowTodo">
