@@ -83,7 +83,10 @@ export class ListComponent implements OnInit {
  
   async presentActionSheet(item) {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Action', 
+      header: 'Move to',  
+      animated: true,
+      cssClass: 'primary', 
+      mode: 'md',
       buttons: [
       // Move to Todo
       {
