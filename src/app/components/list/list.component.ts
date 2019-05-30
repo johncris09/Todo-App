@@ -1,7 +1,7 @@
 import { Component, OnInit,  Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AlertController, ToastController, ModalController, NavController } from '@ionic/angular';
+import { AlertController, ToastController, ModalController, NavController, ActionSheetController } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 
@@ -20,6 +20,13 @@ export class ListComponent implements OnInit {
   @Input('allowLater') allowLater: boolean;
   loading = true;
 
+  public progress: number = 0;
+  public pressState: string = "released";
+
+  // Interval function
+  protected interval: any;
+
+
   constructor(
     private afAuth:  AngularFireAuth,
     private db: AngularFirestore,
@@ -28,6 +35,7 @@ export class ListComponent implements OnInit {
     public modalCtrl: ModalController,  
     private router: Router, 
     public navCtrl: NavController, 
+    public actionSheetController: ActionSheetController,
 
   ) { }
 
@@ -48,6 +56,71 @@ export class ListComponent implements OnInit {
       });
     });
   }
+
+  // pressing
+  onPress($event) {  
+    this.startInterval();
+  }
+  // release
+  onPressUp(item) {  
+    this.stopInterval(); 
+    this.presentActionSheet(item);
+    this.progress = 0; 
+  }
+
+  startInterval() {
+    const self = this;
+    this.interval = setInterval(function () {
+        self.progress = self.progress + 1;
+    }, 50);
+  }
+
+  stopInterval() {
+    clearInterval(this.interval);
+  }
+
+  
+ 
+  async presentActionSheet(item) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Action', 
+      buttons: [
+      // Move to Todo
+      {
+        text: 'Todo', 
+        icon: 'list',
+        cssClass: 'primary',
+        handler: () => {       
+          this.todo(item);
+        }
+      }, 
+      // Move to Later
+      {
+        text: 'Later',
+        icon: 'moon',
+        handler: () => {
+          this.later(item);
+        }
+      },
+      // Move to Completed
+      {
+        text: 'Completed',
+        icon: 'checkmark-circle',
+        handler: () => {
+          this.complete(item);
+        }
+      },  
+      {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => { 
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+ 
 
   async moveToList(path:string) {
     const toast = await this.toastCtrl.create({

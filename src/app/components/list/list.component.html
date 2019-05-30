@@ -3,42 +3,28 @@
      
   </ion-toolbar>
   
-  <ion-list> 
+  <ion-list > 
 
-    <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>
+    <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner> 
     <ion-item-sliding *ngFor="let item of items; let i = index">
-      <ion-item lines="inset">
-         <ion-checkbox mode="ios" color="primary" (click)="complete(item)" slot="start" title="Move to Completed" color="primary"></ion-checkbox> 
-        <!-- ion-long-press [interval]="400" (onPressStart)="pressed()" (onPressing)="active()" (onPressEnd)="released()"  -->
-        <ion-input id="todo" (click)="showTodoDetails(item)" value="{{ item.text }}"  readonly></ion-input>
-         
-      </ion-item>
-      
-      <ion-item-options side="start" >
-        <ion-item-option title="Move to Completed" color="success" (click)="complete(item)" *ngIf="allowDone" >
-          <ion-icon name="checkmark"></ion-icon>
-        </ion-item-option>
-        <ion-item-option color="secondary" title="Move to Todo" (click)="todo(item)" *ngIf="allowTodo">
-          <ion-icon name="list"></ion-icon>
-        </ion-item-option>  
-        <ion-item-option color="dark" title="Move to Later" (click)="later(item)" *ngIf="allowLater">
-          <ion-icon name="moon"></ion-icon>
-        </ion-item-option> 
-        <ion-item-option color="medium" title="Move to Up" (click)="moveByOffset(i, -1)" *ngIf="i !== 0">
+      <ion-item>  
+        <ion-label (dblclick)="showTodoDetails(item)" (press)="onPress($event)" (pressup)="onPressUp(item)">{{item.text}}</ion-label>  
+      </ion-item>  
+      <ion-item-options side="start" > 
+        <ion-item-option color="tertiary"   title="Move to Up" (click)="moveByOffset(i, -1)" *ngIf="i !== 0">
           <ion-icon name="arrow-up"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="medium" title="Move to Down" (click)="moveByOffset(i, 1)" *ngIf="i !== items.length-1">
+        <ion-item-option color="tertiary"  title="Move to Down" (click)="moveByOffset(i, 1)" *ngIf="i !== items.length-1">
           <ion-icon name="arrow-down"></ion-icon>
         </ion-item-option>
       </ion-item-options>
 
       <ion-item-options side="end" (ionSwipe)="delete(item)"> 
         <ion-item-option color="danger" (click)="delete(item)" expandable>
-          <ion-icon name="trash"></ion-icon>
+          <ion-icon  name="trash"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-
-    </ion-item-sliding>
+    </ion-item-sliding> 
    
   </ion-list> 
   <ion-icon color="light" (click)="add()" title="Add Todo" mode="md" name="add" slot="end"></ion-icon> 

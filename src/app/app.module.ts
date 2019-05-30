@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -13,14 +13,11 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
-import { environment } from 'src/environments/environment';
-import { LoginPage } from './login/login.page';
+import { environment } from 'src/environments/environment'; 
 import { LoginPageModule } from './login/login.module';
-import { TabsPageModule } from './tabs/tabs.module'; 
-import { TodoDetailsPageModule } from './todo-details/todo-details.module';
-import { TodoPage } from './todo/todo.page';
-import { TodoDetailsPage } from './todo-details/todo-details.page'; 
+import { TabsPageModule } from './tabs/tabs.module';  
 import { OrderModule } from 'ngx-order-pipe';   
+import {IonicGestureConfig} from "./gestures/ionic-gesture-config";
 
 @NgModule({
   declarations: [
@@ -38,13 +35,16 @@ import { OrderModule } from 'ngx-order-pipe';
     AngularFireAuthModule,
     LoginPageModule,
     TabsPageModule,
-    OrderModule,   
-
+    OrderModule,    
   ],
   providers: [
     StatusBar,
     SplashScreen, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: IonicGestureConfig
+    },
   ],
   bootstrap: [AppComponent]
 })
