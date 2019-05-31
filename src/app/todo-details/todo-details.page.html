@@ -38,7 +38,8 @@
           <ion-item lines="none">
             <ion-icon color="primary" slot="start" name="alarm"></ion-icon>
             <ion-label>Remind me at</ion-label>
-            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime()" displayFormat="hh:mm:ss A" picker-format="hh mm ss A"></ion-datetime>
+            <!-- <p>{{ items.remindAt }}</p> -->
+            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime(items)" displayFormat="hh:mm:ss a" picker-format="hh mm ss A"></ion-datetime>
           </ion-item>  
         </ion-col> 
       </ion-row> 
@@ -91,6 +92,11 @@
               <ion-icon slot="icon-only" color="primary"  name="add"></ion-icon>
             </ion-button>
             <ion-textarea [(ngModel)]="todoSubtask" placeholder="Add Subtask" rows="1"></ion-textarea> 
+            <ion-buttons  slot="end">
+              <ion-button (click)="addSubtask()" title="Add Subtask">
+                <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons>
           </ion-item>  
         </ion-col> 
       </ion-row>
@@ -101,7 +107,8 @@
           <ion-item lines="inset">
             <img class="commentor" [src]="user.profilePic" alt="Profile Picture"/>
             <ion-label>
-              <h4>{{ comment.commentor }} <small>{{ comment.date.toDate() | date: 'MMM dd, yyyy HH:mm:ss a' }}</small> </h4>
+              <h4>{{ comment.commentor }}  </h4>
+              <p><small>{{ comment.date.toDate() | date: 'MMM dd, yyyy HH:mm:ss a' }}</small></p>
               <p style="text-indent: 10px">{{ comment.comment}}</p>
             </ion-label>
             <ion-button (click)="deleteComment(i,items.id)" title="Delete comment" slot="end" fill="clear">

@@ -23,7 +23,7 @@ export class TodoDetailsPage implements OnInit {
   public todoListSubtask: string;
   comment = [];
   user: any = {};
-
+  public alertPresented: any;
 
   constructor( 
     public activeRoute: ActivatedRoute,
@@ -41,6 +41,8 @@ export class TodoDetailsPage implements OnInit {
       }
       this.user.profilePic = this.user.photoURL == null ?  'https://image.flaticon.com/icons/png/512/20/20863.png' : this.user.photoURL+'?type=large'; 
     }); 
+
+    this.alertPresented = false;
   }
 
   ngOnInit() {
@@ -61,48 +63,23 @@ export class TodoDetailsPage implements OnInit {
             this.items['created']   = val['0']['created'];
             this.items['text']      = val['0']['text'];
             this.items['dueDate']   = val['0']['dueDate'];
-            this.items['remindAt']  = val['0']['remindAt']; 
+            this.items['remindAt']  = val['0']['remindAt'];  
             this.items['note']      = val['0']['note'];
             this.items['comments']  = val['0']['comments'];
             this.items['subTasks']  = val['0']['subTasks']; 
+
             // Models
             this.todoCal      = this.items['dueDate']; 
-            this.todoNote     = this.items['note'];
-            var time          = new Date(this.items['remindAt'].toDate());
+            this.todoNote     = this.items['note'];   
+            this.todoTime     = new Date (this.items['dueDate'] + ' ' + this.items['remindAt']).toString().split(" ")[4];
              
-            this.todoTime     = time.toLocaleString(); 
- 
-            var reminder      = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true })
-             
-            var Interval = setInterval( () => { 
-              var timeNow       = new Date(); 
-              var alarm         = timeNow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true }); 
-                
-              if(reminder == alarm){
-                this.alamMsg("Alarm ").then(()=>{
-                  clearInterval(Interval);
-                });
-              }
-            }, 1000)
-          }
-          catch(err) {
+          }catch(err) {
             return;
           }    
         }); 
     });   
  
-  }  
-  alarm(remindAt?, alarm?){
-    // console.info(remindAt);
-    console.info(alarm);
-    // if(remindAt == alarm){
-    //   return true;
-    // }else{
-    //   return false;
-    // }
-
-  }
-
+  }   
   // Update todo Name
   updateTodo(){ 
     let todoName = this.todoName;
@@ -146,20 +123,56 @@ export class TodoDetailsPage implements OnInit {
   }
 
   updateTodoCal(){ 
-    var date = new Date(this.todoCal);
-    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      dueDate: (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear()
-    }, {merge: true}); 
-    
-  }       
-    
-  // need to fix
-  updateTodoTime(){
-    var time = new Date(this.todoTime); 
-    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      remindAt:  time  
-    }, {merge: true}); 
+    var setDue = new Date(this.todoCal);
+    var dateNow = new Date();   
+    if(this.compareDate(setDue,dateNow)){ 
+
+      return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+        dueDate: (setDue.getMonth() + 1) + '/' + setDue.getDate() + '/' +  setDue.getFullYear()
+      }, {merge: true}).then(()=>{
+        this.dateAndTimeReminderMsgs("Due date is set");
+      });
+    }else{ 
+      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+        dueDate: null
+      }, {merge: true}).then(()=>{ 
+        this.dateAndTimeReminderMsgs("The set due date must be equal or greater than date now."); 
+      });
+    }
+  }  
+
+  compareDate(setDueDate, dateNow){ 
+    var dueOn = new Date(setDueDate.getFullYear(), setDueDate.getMonth() , setDueDate.getDate());
+    var now = new Date(dateNow.getFullYear(), dateNow.getMonth() , dateNow.getDate());
+    return (dueOn >= now) ? true:  false;  
+  }     
+     
+  updateTodoTime(item?){   
+    if(item.dueDate === null){ 
+      this.dateAndTimeReminderMsgs("Due date is required."); 
+    }else{ 
+      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+        remindAt:  this.todoTime  
+      }, {merge: true});
+      this.dateAndTimeReminderMsgs("Reminder is set.");  
+      this.setReminder(item);
+    } 
   } 
+
+  setReminder(item){  
+    var Interval = setInterval( () => { 
+      var timeNow   = new Date(); 
+      var alarm     = timeNow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true }); 
+      var todoTime  = new Date (item.dueDate + ' ' + this.todoTime);
+      var remindAt  = todoTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true }); 
+      console.info(alarm);
+      console.info(remindAt);
+      if(alarm === remindAt ){
+        return this.alarmMsgs(item); 
+      }
+    }, 1000); 
+    
+  }
 
   updateTodoNote(){ 
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
@@ -306,14 +319,25 @@ export class TodoDetailsPage implements OnInit {
     });
     toast.present();
   } 
-  async alamMsg(msg:string) {
+ 
+  async alarmMsgs(item) {
+    const alert = await this.alertCtrl.create({
+      header: 'Reminder', 
+      message: 'You have an upcoming task ' + item.text + ' that is due on ' + item.dueDate + ' & ' + item.remindAt, 
+      buttons: ['Ok', 'Cancel']
+    });  
+    await alert.present();
+   
+  }
+
+  async dateAndTimeReminderMsgs(msg:string) {
     const toast = await this.toastCtrl.create({
-      message: ' Alarm.',
-      duration: 60000,
+      message: msg,
+      duration: 1500,
       showCloseButton: true,
       closeButtonText: 'Ok',
-      position: 'middle',
     });
     toast.present();
-  } 
+   
+  }
 }
