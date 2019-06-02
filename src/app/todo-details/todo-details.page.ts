@@ -153,26 +153,10 @@ export class TodoDetailsPage implements OnInit {
     }else{ 
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
         remindAt:  this.todoTime  
-      }, {merge: true});
-      this.dateAndTimeReminderMsgs("Reminder is set.");  
-      this.setReminder(item);
+      }, {merge: true}); 
     } 
   } 
-
-  setReminder(item){  
-    var Interval = setInterval( () => { 
-      var timeNow   = new Date(); 
-      var alarm     = timeNow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true }); 
-      var todoTime  = new Date (item.dueDate + ' ' + this.todoTime);
-      var remindAt  = todoTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true }); 
-      console.info(alarm);
-      console.info(remindAt);
-      if(alarm === remindAt ){
-        return this.alarmMsgs(item); 
-      }
-    }, 1000); 
-    
-  }
+ 
 
   updateTodoNote(){ 
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
@@ -319,16 +303,7 @@ export class TodoDetailsPage implements OnInit {
     });
     toast.present();
   } 
- 
-  async alarmMsgs(item) {
-    const alert = await this.alertCtrl.create({
-      header: 'Reminder', 
-      message: 'You have an upcoming task ' + item.text + ' that is due on ' + item.dueDate + ' & ' + item.remindAt, 
-      buttons: ['Ok', 'Cancel']
-    });  
-    await alert.present();
-   
-  }
+  
 
   async dateAndTimeReminderMsgs(msg:string) {
     const toast = await this.toastCtrl.create({

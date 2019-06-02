@@ -37,7 +37,37 @@ export class ListComponent implements OnInit {
     public navCtrl: NavController, 
     public actionSheetController: ActionSheetController,
 
-  ) { }
+  ) { 
+    var Interval = setInterval( () => { 
+      var timeNow   = new Date(); 
+      var alarm     = timeNow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true });  
+      for(let counter = 0; counter < this.items.length; counter++){
+        var dueon = new Date ( this.items[counter].dueDate + ' ' + this.items[counter].remindAt);
+        var reminder = dueon.toLocaleString('en-US', { 
+          hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true 
+        });
+        
+        var formatDate = dueon.toLocaleDateString('en-GB', {
+         month: 'long',day: 'numeric', year: 'numeric'
+        }).replace(/ /g, '/');
+        
+        if(alarm === reminder){ 
+          this.alarmMsgs(this.items[counter].text, formatDate, reminder) ; 
+        }
+        
+        console.info({
+          "text": this.items[counter].text,
+          "remindAt": this.items[counter].remindAt,
+          "dueDate": this.items[counter].dueDate,
+          "reminder": reminder,
+        });
+
+      }
+      console.info("alarm",alarm);
+      
+    }, 1000); 
+    
+  }
 
   ngOnInit() {
     this.afAuth.authState.subscribe(user=>{
@@ -85,8 +115,7 @@ export class ListComponent implements OnInit {
     const actionSheet = await this.actionSheetController.create({
       header: 'Move to',  
       animated: true,
-      cssClass: 'primary', 
-      mode: 'md',
+      cssClass: 'primary',  
       buttons: [
       // Move to Todo
       {
@@ -101,6 +130,7 @@ export class ListComponent implements OnInit {
       {
         text: 'Later',
         icon: 'moon',
+        cssClass: 'secondary',
         handler: () => {
           this.later(item);
         }
@@ -112,7 +142,17 @@ export class ListComponent implements OnInit {
         handler: () => {
           this.complete(item);
         }
-      },  
+      }, 
+      // Delete
+      {
+        text: 'Delete',
+        icon: 'trash',
+        role: 'destructive',
+        cssClass: 'danger', 
+        handler: () => {
+          this.delete(item);
+        }
+      }, 
       {
         text: 'Cancel',
         icon: 'close',
@@ -293,17 +333,24 @@ export class ListComponent implements OnInit {
     }, {merge: true});
   } 
 
-
-  // ---------------------------
-  pressed(){
-    console.info("press");
+  async alarmMsgs(task, dueOn, remindAt) {
+    const alert = await this.alertCtrl.create({
+      header: 'Reminder', 
+      message: 'You have an upcoming task <strong>' + task + '</strong> that is due on <strong>' + dueOn + ' and ' + remindAt +'</strong>.', 
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {  }
+        }, {
+          text: 'Okay',
+          handler: () => { }
+        }
+      ]
+    });  
+    await alert.present();
+   
   }
 
-  active(){
-    console.info("active");
-  }
-
-  released(){
-    console.info("release");
-  }
 }

@@ -108,7 +108,7 @@
             <img class="commentor" [src]="user.profilePic" alt="Profile Picture"/>
             <ion-label>
               <h4>{{ comment.commentor }}  </h4>
-              <p><small>{{ comment.date.toDate() | date: 'MMM dd, yyyy HH:mm:ss a' }}</small></p>
+              <p><small>{{ comment.date.toDate() | date: 'MM/dd/yyyy HH:mm:ss a' }}</small></p>
               <p style="text-indent: 10px">{{ comment.comment}}</p>
             </ion-label>
             <ion-button (click)="deleteComment(i,items.id)" title="Delete comment" slot="end" fill="clear">
