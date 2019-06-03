@@ -66,13 +66,13 @@ export class TodoDetailsPage implements OnInit {
             this.items['remindAt']  = val['0']['remindAt'];  
             this.items['note']      = val['0']['note'];
             this.items['comments']  = val['0']['comments'];
-            this.items['subTasks']  = val['0']['subTasks']; 
-
+            this.items['subTasks']  = val['0']['subTasks'];  
             // Models
             this.todoCal      = this.items['dueDate']; 
-            this.todoNote     = this.items['note'];   
-            this.todoTime     = new Date (this.items['dueDate'] + ' ' + this.items['remindAt']).toString().split(" ")[4];
-             
+            this.todoNote     = this.items['note']; 
+            if(this.items['remindAt'] != null){
+              this.todoTime     = this.items['remindAt'];  
+            }  
           }catch(err) {
             return;
           }    
@@ -151,10 +151,20 @@ export class TodoDetailsPage implements OnInit {
     if(item.dueDate === null){ 
       this.dateAndTimeReminderMsgs("Due date is required."); 
     }else{ 
-      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-        remindAt:  this.todoTime  
-      }, {merge: true}); 
-    } 
+      if(item.remindAt == null || this.todoTime.length > 8){ 
+        var dateTime = new Date(this.todoTime);
+        var reminder = dateTime.toLocaleString('en-US', { 
+          hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: false 
+        }); 
+        this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+          remindAt:  reminder 
+        }, {merge: true}); 
+      }else{  
+        this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+          remindAt:  this.todoTime 
+        }, {merge: true}); 
+      }
+    }
   } 
  
 

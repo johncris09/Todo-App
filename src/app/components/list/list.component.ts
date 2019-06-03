@@ -53,18 +53,8 @@ export class ListComponent implements OnInit {
         
         if(alarm === reminder){ 
           this.alarmMsgs(this.items[counter].text, formatDate, reminder) ; 
-        }
-        
-        console.info({
-          "text": this.items[counter].text,
-          "remindAt": this.items[counter].remindAt,
-          "dueDate": this.items[counter].dueDate,
-          "reminder": reminder,
-        });
-
-      }
-      console.info("alarm",alarm);
-      
+        } 
+      }  
     }, 1000); 
     
   }

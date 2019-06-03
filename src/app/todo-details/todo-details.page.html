@@ -37,9 +37,8 @@
         <ion-col size="12">
           <ion-item lines="none">
             <ion-icon color="primary" slot="start" name="alarm"></ion-icon>
-            <ion-label>Remind me at</ion-label>
-            <!-- <p>{{ items.remindAt }}</p> -->
-            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime(items)" displayFormat="hh:mm:ss a" picker-format="hh mm ss A"></ion-datetime>
+            <ion-label>Remind me at</ion-label> 
+            <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime(items)" displayFormat="hh:mm:ss A" picker-format="hh mm ss A"></ion-datetime>
           </ion-item>  
         </ion-col> 
       </ion-row> 
