@@ -1,8 +1,0 @@
-1. Mo highlight ang selected text kung i long press. 4:30 5:25 Done
-2. walaon ang seconds sa pag alarm. 3:30 4:30 done
-3. naa sa after add subtask ang list sa subtask same gihapon sa comment. 3:15 3:20 Done
-4. Time sa pag comment. 'Posted at Date and time (no seconds na)' 3:25 to 3:30 minutes.
-5. resize ang image to smaller. 3:20 3:25 Done
-6. Date format sa pag alarm dapat MMMM dd, YYYY 3:30 4:30 done
-7. Dapat mo notify gihapon bsan na close na ang apps.
- 
