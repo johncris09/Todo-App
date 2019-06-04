@@ -38,21 +38,45 @@ export class ListComponent implements OnInit {
     public actionSheetController: ActionSheetController,
 
   ) { 
+
+    // Setting an alarm
     var Interval = setInterval( () => { 
-      var timeNow   = new Date(); 
-      var alarm     = timeNow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true });  
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December" 
+      ];
+
+      var timeNow   = new Date();  
+      var alarm     = timeNow.toLocaleString('en-US', { 
+        hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true 
+      });  
       for(let counter = 0; counter < this.items.length; counter++){
         var dueon = new Date ( this.items[counter].dueDate + ' ' + this.items[counter].remindAt);
+        dueon.setSeconds(0);
+        
+        // use for condition in alarm
         var reminder = dueon.toLocaleString('en-US', { 
-          hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true 
-        });
-        
-        var formatDate = dueon.toLocaleDateString('en-GB', {
-         month: 'long',day: 'numeric', year: 'numeric'
-        }).replace(/ /g, '/');
-        
+          hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true 
+        }); 
+
+        // time with no seconds
+        var remindAt = dueon.toLocaleString('en-US', { 
+          hour: 'numeric', minute: 'numeric' , hour12: true 
+        }); 
+ 
+        var formatDate = months[dueon.getMonth()] + " " + dueon.getDate() + "," +  dueon.getFullYear(); 
         if(alarm === reminder){ 
-          this.alarmMsgs(this.items[counter].text, formatDate, reminder) ; 
+          this.alarmMsgs(this.items[counter].text, formatDate, remindAt) ;   
         } 
       }  
     }, 1000); 
@@ -326,7 +350,7 @@ export class ListComponent implements OnInit {
   async alarmMsgs(task, dueOn, remindAt) {
     const alert = await this.alertCtrl.create({
       header: 'Reminder', 
-      message: 'You have an upcoming task <strong>' + task + '</strong> that is due on <strong>' + dueOn + ' and ' + remindAt +'</strong>.', 
+      message: 'You have an upcoming task <strong>' + task + '</strong> that is due on <strong>' + dueOn + ' at ' + remindAt +'</strong>.', 
       buttons: [
         {
           text: 'Cancel',

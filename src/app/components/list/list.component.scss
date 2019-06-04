@@ -1,3 +1,4 @@
+ 
 ion-spinner{
   padding-left: 60px;
 }
@@ -12,9 +13,11 @@ ion-icon[name="add"]{
   font-size: 30px;
   margin: 10px; 
   position: fixed; 
-  bottom: 1.9em;
+  bottom: 10px;
   right: 0.25em;
   
-} 
-   
- 
+}  
+
+ion-item.item:active{ 
+  --background: #d4d7db; 
+}
