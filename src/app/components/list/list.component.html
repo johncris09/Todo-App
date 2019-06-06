@@ -5,7 +5,7 @@
   
   <ion-list > 
 
-    <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner> 
+    <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>  
     <ion-item-sliding *ngFor="let item of items; let i = index"> 
       <ion-item class="item" (press)="onPress($event)" (pressup)="onPressUp(item)">  
         <ion-button (click)="showTodoDetails(item)" slot="end" fill="clear">

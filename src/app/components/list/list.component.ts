@@ -1,9 +1,10 @@
 import { Component, OnInit,  Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AlertController, ToastController, ModalController, NavController, ActionSheetController } from '@ionic/angular';
-
+import { AlertController, ToastController, ModalController, NavController, ActionSheetController } from '@ionic/angular'; 
 import { Router } from '@angular/router';
+
+import { LocalNotifications, ELocalNotificationTriggerUnit} from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-list',
@@ -35,7 +36,8 @@ export class ListComponent implements OnInit {
     public modalCtrl: ModalController,  
     private router: Router, 
     public navCtrl: NavController, 
-    public actionSheetController: ActionSheetController,
+    public actionSheetController: ActionSheetController,  
+    private localNotification: LocalNotifications,
 
   ) { 
 
@@ -74,15 +76,20 @@ export class ListComponent implements OnInit {
           hour: 'numeric', minute: 'numeric' , hour12: true 
         }); 
  
-        var formatDate = months[dueon.getMonth()] + " " + dueon.getDate() + "," +  dueon.getFullYear(); 
-        if(alarm === reminder){ 
-          this.alarmMsgs(this.items[counter].text, formatDate, remindAt) ;   
+        var formatDate = months[dueon.getMonth()] + " " + dueon.getDate() + "," +  dueon.getFullYear();
+          
+        if(alarm === reminder){
+          var date = (new Date().getMonth() + 1) + "/" + new Date().getDate() + "/" + new Date().getFullYear();  
+          var timeTrigger = new Date ( date + ' ' + reminder); 
+          this.registerNotification(timeTrigger, this.items[counter].text, formatDate, remindAt); 
         } 
       }  
     }, 1000); 
+ 
+
     
   }
-
+ 
   ngOnInit() {
     this.afAuth.authState.subscribe(user=>{
       if(!user)
@@ -99,6 +106,19 @@ export class ListComponent implements OnInit {
         this.loading = false;
       });
     });
+  }
+
+  registerNotification(timeTrigger, task, dueOn, remindAt){ 
+    this.localNotification.schedule({
+      title:'Reminder',
+      text: 'You have an upcoming task ' + task + '  that is due on ' + dueOn + ' & ' + remindAt,
+      trigger: {at: timeTrigger },
+      led: { color: '#FF00FF', on: 500, off: 500 },
+      sound: null,
+      icon: 'https://img.icons8.com/dusk/64/000000/alarm-clock.png',
+      foreground: true,
+      vibrate: true,
+    }); 
   }
 
   // pressing

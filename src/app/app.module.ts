@@ -17,8 +17,8 @@ import { environment } from 'src/environments/environment';
 import { LoginPageModule } from './login/login.module';
 import { TabsPageModule } from './tabs/tabs.module';  
 import { OrderModule } from 'ngx-order-pipe';   
-import {IonicGestureConfig} from "./gestures/ionic-gesture-config";
-
+import {IonicGestureConfig} from "./gestures/ionic-gesture-config"; 
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @NgModule({
   declarations: [
     AppComponent 
@@ -38,13 +38,14 @@ import {IonicGestureConfig} from "./gestures/ionic-gesture-config";
     OrderModule,    
   ],
   providers: [
+    LocalNotifications,
     StatusBar,
     SplashScreen, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: IonicGestureConfig
-    },
+    }, 
   ],
   bootstrap: [AppComponent]
 })
