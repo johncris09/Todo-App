@@ -2,8 +2,16 @@
   <ion-title>Login</ion-title>
 </ion-toolbar>
 
-<ion-content>
-  <br/>
-  <firebase-ui></firebase-ui> 
+<ion-content padding>
+  <br/> 
+  <div class="container">
+  	<ion-chip outline class="google-plus" color="primary" (click)="Login()">
+	  <ion-avatar>
+	    <img src="https://img.icons8.com/color/48/000000/google-logo.png">
+	  </ion-avatar>
+	  <ion-label>Sign in with Google</ion-label> 
+	</ion-chip>
+  </div>
+ 
   
 </ion-content>

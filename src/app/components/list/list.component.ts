@@ -1,10 +1,11 @@
-import { Component, OnInit,  Input } from '@angular/core';
+import { Component, OnInit,  Input } from '@angular/core'; 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AlertController, ToastController, ModalController, NavController, ActionSheetController } from '@ionic/angular'; 
+import { Platform, AlertController, ToastController, ModalController, NavController, ActionSheetController } from '@ionic/angular'; 
 import { Router } from '@angular/router';
 
 import { LocalNotifications, ELocalNotificationTriggerUnit} from '@ionic-native/local-notifications/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-list',
@@ -38,6 +39,8 @@ export class ListComponent implements OnInit {
     public navCtrl: NavController, 
     public actionSheetController: ActionSheetController,  
     private localNotification: LocalNotifications,
+    private fcm: FCM,
+    private platform: Platform,
 
   ) { 
 
@@ -77,11 +80,11 @@ export class ListComponent implements OnInit {
         }); 
  
         var formatDate = months[dueon.getMonth()] + " " + dueon.getDate() + "," +  dueon.getFullYear();
-          
+ 
         if(alarm === reminder){
-          var date = (new Date().getMonth() + 1) + "/" + new Date().getDate() + "/" + new Date().getFullYear();  
-          var timeTrigger = new Date ( date + ' ' + reminder); 
-          this.registerNotification(timeTrigger, this.items[counter].text, formatDate, remindAt); 
+           var date = (new Date().getMonth() + 1) + "/" + new Date().getDate() + "/" + new Date().getFullYear();  
+           var timeTrigger = new Date ( date + ' ' + reminder); 
+           this.registerNotification(timeTrigger, this.items[counter].text, formatDate, remindAt); 
         } 
       }  
     }, 1000); 
@@ -110,14 +113,11 @@ export class ListComponent implements OnInit {
 
   registerNotification(timeTrigger, task, dueOn, remindAt){ 
     this.localNotification.schedule({
-      title:'Reminder',
+      title:'Todo App Reminder',
       text: 'You have an upcoming task ' + task + '  that is due on ' + dueOn + ' & ' + remindAt,
-      trigger: {at: timeTrigger },
-      led: { color: '#FF00FF', on: 500, off: 500 },
-      sound: null,
-      icon: 'https://img.icons8.com/dusk/64/000000/alarm-clock.png',
-      foreground: true,
-      vibrate: true,
+      trigger: {at: timeTrigger }, 
+      sound: this.platform.is('android') ? 'file:///home/bayoii/Downloads/manabo/Todo-App/src/app/components/list/android-notify.mp3': 'file:///home/bayoii/Downloads/manabo/Todo-App/src/app/components/list/ios-notify.mp3',
+      icon: 'https://img.icons8.com/dusk/64/000000/alarm-clock.png', 
     }); 
   }
 

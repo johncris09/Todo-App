@@ -39,7 +39,7 @@ export class TodoDetailsPage implements OnInit {
       if(user){
         this.user = user; 
       }
-      this.user.profilePic = this.user.photoURL == null ?  'https://image.flaticon.com/icons/png/512/20/20863.png' : this.user.photoURL+'?type=large'; 
+      this.user.profilePic = this.user.photoURL == null ?  'https://img.icons8.com/office/480/000000/user.png' : this.user.photoURL+'?type=large'; 
     }); 
 
     this.alertPresented = false;

@@ -19,6 +19,13 @@ import { TabsPageModule } from './tabs/tabs.module';
 import { OrderModule } from 'ngx-order-pipe';   
 import {IonicGestureConfig} from "./gestures/ionic-gesture-config"; 
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';  
+
+import { GooglePlus } from '@ionic-native/google-plus/ngx'; 
+import * as firebase from 'firebase/app';
+
+firebase.initializeApp(environment.firebase);
+
 @NgModule({
   declarations: [
     AppComponent 
@@ -39,6 +46,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
   ],
   providers: [
     LocalNotifications,
+    FCM,  
+    GooglePlus,
     StatusBar,
     SplashScreen, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
