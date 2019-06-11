@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AlertController, LoadingController } from '@ionic/angular';
- 
+import { AlertController, LoadingController } from '@ionic/angular';  
+import { Facebook } from '@ionic-native/facebook/ngx';
 
 @Component({
   selector: 'app-account',
@@ -19,6 +19,7 @@ export class AccountPage implements OnInit {
     private afs : AngularFirestore, 
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private fb: Facebook,
   ) {  
     this.afAuth.authState.subscribe(user=>{
       if(user){

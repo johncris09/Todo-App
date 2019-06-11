@@ -80,7 +80,7 @@ export class ListComponent implements OnInit {
         }); 
  
         var formatDate = months[dueon.getMonth()] + " " + dueon.getDate() + "," +  dueon.getFullYear();
- 
+        console.info("alarm",alarm)
         if(alarm === reminder){
            var date = (new Date().getMonth() + 1) + "/" + new Date().getDate() + "/" + new Date().getFullYear();  
            var timeTrigger = new Date ( date + ' ' + reminder); 

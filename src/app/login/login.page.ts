@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';  
 import { GooglePlus } from '@ionic-native/google-plus/ngx';  
 import * as firebase from 'firebase/app';
+
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+
  
 
 @Component({
@@ -14,6 +17,7 @@ export class LoginPage implements OnInit {
   user: any = {};
   constructor(
   	public googlePlus: GooglePlus,
+  	private fb: Facebook,
 
   ) { }
 
@@ -34,15 +38,9 @@ export class LoginPage implements OnInit {
   }
 
   facebookLogin(){ 
-  	let provider = new firebase.auth.FacebookAuthProvider();
-
-  	firebase.auth().signInWithRedirect(provider).then(()=>{
-  	  firebase.auth().getRedirectResult().then((result)=>{
-  	  	alert(JSON.stringify(result));
-  	  }).catch(function(error) {
-  	  	alert(JSON.stringify(error));
-  	  });
-  	});
+	  this.fb.login(['public_profile', 'user_photos', 'email'])
+	  .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+	  .catch(e => console.log('Error logging into Facebook', e)); 
   }
 
 }

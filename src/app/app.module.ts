@@ -24,6 +24,8 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx'; 
 import * as firebase from 'firebase/app';
 
+import { Facebook } from '@ionic-native/facebook/ngx';
+
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
@@ -48,6 +50,7 @@ firebase.initializeApp(environment.firebase);
     LocalNotifications,
     FCM,  
     GooglePlus,
+    Facebook,
     StatusBar,
     SplashScreen, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 

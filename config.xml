@@ -3,6 +3,12 @@
     <name>Todo App</name>
     <description>Record your task every seconds.</description>
     <author email="jcmanabo@gmail.com" href="https://github.com/johncris09">John Cris</author>
+    <universal-links>
+        <host name="https:todoapp.page.link" scheme="https" />
+        <host name="todo-5a1d6.firebaseapp.com" scheme="https">
+            <path url="/__/auth/callback" />
+        </host>
+    </universal-links>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -87,4 +93,11 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <plugin name="cordova-plugin-facebook4" spec="4.2.1">
+        <variable name="APP_ID" value="2259785811004443" />
+        <variable name="APP_NAME" value="myTodoApp" />
+        <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.40.0" />
+        <variable name="ANDROID_SDK_VERSION" value="4.*" />
+    </plugin>
+    <allow-navigation href="http://192.168.0.180:8101" sessionid="c2274e9e" />
 </widget>
