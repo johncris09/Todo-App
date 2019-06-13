@@ -8,15 +8,26 @@ import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'redirect', // popup                                                                                                                                                          
+  signInFlow: 'popup', // popup                                                                
   signInOptions: [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID, // Other providers don't need to be given as object.
     {
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID, 
+      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      scopes: [
+        'public_profile',
+        'email',
+        'user_likes',
+        'user_friends'
+      ],
+      customParameters: {
+        // Forces password re-entry.
+        auth_type: 'reauthenticate'
+      }
     },
-     
+    
   ],
-  tosUrl: '/tos',
-  privacyPolicyUrl: '/privacy',
+  //tosUrl: '/tos',
+  //privacyPolicyUrl: '/privacy',
   credentialHelper: firebaseui.auth.CredentialHelper.NONE
 };
 

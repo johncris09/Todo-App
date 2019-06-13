@@ -33,7 +33,8 @@ export class LoginPage implements OnInit {
   googleplusLogin(){
   	this.googlePlus.login({
   	  'webClientId': '1047252692996-jch521c4gouebt4l42re3dslb40jasp1.apps.googleusercontent.com',
-  	  'offline' : true, 
+  	  'offline' : false, 
+  	  'scopes': 'profile email'
   	}).then(res=>{
   		firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken)).then(suc=>{
   		  console.log("Login Success");

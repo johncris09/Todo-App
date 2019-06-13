@@ -4,7 +4,7 @@
     <description>Record your task every seconds.</description>
     <author email="jcmanabo@gmail.com" href="https://github.com/johncris09">John Cris</author>
     <universal-links>
-        <host name="https:todoapp.page.link" scheme="https" />
+        <host name="https://todoapp.page.link" scheme="https" />
         <host name="todo-5a1d6.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
@@ -99,5 +99,4 @@
         <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.40.0" />
         <variable name="ANDROID_SDK_VERSION" value="4.*" />
     </plugin>
-    <allow-navigation href="http://192.168.0.180:8101" sessionid="c2274e9e" />
 </widget>

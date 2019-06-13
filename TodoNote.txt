@@ -189,3 +189,24 @@ If you have any questions about this Privacy Policy, please contact us:
 
 By email: manabojc@gmail.com
 By phone number: 09300128659
+
+
+Problem: 
+disallowed_useragent google login
+cannot sign in with different account
+
+	'offline' : true, 
+	<preference name="OverrideUserAgent" value="Mozilla/5.0 My Browser" >
+	<preference name="AppendUserAgent" value="My Browser" >
+
+	{
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      scopes: [
+        'https://www.googleapis.com/auth/contacts.readonly'
+      ],
+      customParameters: {
+        // Forces account selection even when one account
+        // is available.
+        prompt: 'select_account'
+      }
+    }, 
