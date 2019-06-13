@@ -6,7 +6,10 @@ import * as firebase from 'firebase/app';
 
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
- 
+import { LoadingController } from '@ionic/angular';
+
+import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +21,9 @@ export class LoginPage implements OnInit {
   constructor(
   	public googlePlus: GooglePlus,
   	private fb: Facebook,
+  	public loadingController: LoadingController,
+  	public router: Router,
+  	private nativeStorage: NativeStorage,
 
   ) { }
 
@@ -37,10 +43,47 @@ export class LoginPage implements OnInit {
   	});
   }
 
-  facebookLogin(){ 
-	  this.fb.login(['public_profile', 'user_photos', 'email'])
-	  .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
-	  .catch(e => console.log('Error logging into Facebook', e)); 
-  }
+  async facebookLogin(){ 
+	  const loading = await this.loadingController.create({
+			message: 'Please wait...'
+		});
+		this.presentLoading(loading);
+		let permissions = new Array<string>();
+
+		//the permissions your facebook app needs from the user
+		permissions = ["public_profile", "email"];
+
+		this.fb.login(permissions)
+		.then(response =>{
+			let userId = response.authResponse.userID;
+
+			//Getting name and gender properties
+			this.fb.api("/me?fields=name,email", permissions)
+			.then(user =>{
+				user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+				//now we have the users info, let's save it in the NativeStorage
+				this.nativeStorage.setItem('facebook_user',
+				{
+					name: user.name,
+					email: user.email,
+					picture: user.picture
+				})
+				.then(() =>{
+					this.router.navigateByUrl('/tabs');
+					loading.dismiss();
+				}, error =>{
+					console.log(error);
+					loading.dismiss();
+				})
+			})
+		}, error =>{
+			console.log(error);
+			loading.dismiss();
+		});
+	}
+
+	async presentLoading(loading) {
+		return await loading.present();
+	}																			
 
 }

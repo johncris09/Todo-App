@@ -25,6 +25,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import * as firebase from 'firebase/app';
 
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -48,6 +49,7 @@ firebase.initializeApp(environment.firebase);
   ],
   providers: [
     LocalNotifications,
+    NativeStorage,
     FCM,  
     GooglePlus,
     Facebook,
