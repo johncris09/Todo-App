@@ -86,7 +86,7 @@ export class TodoDetailsPage implements OnInit {
     return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).update({
       text: this.todoName
     }).then(()=>{
-      this.crudMsgs("Updated")
+      this.crudMsgs("Updated sucessfully")
     }); 
   }
 
@@ -169,83 +169,91 @@ export class TodoDetailsPage implements OnInit {
  
 
   updateTodoNote(){ 
-    return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      note : this.todoNote
-    }, {merge: true}).then(()=>{
-      this.crudMsgs("Note updated ");
-    }); 
+    console.log(this.todoNote);
+    if(!this.todoNote.trim().length){
+      this.crudMsgs("Note must not be empty "); 
+      return;
+    }else{
+      return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+        note : this.todoNote
+      }, {merge: true}).then(()=>{
+        this.crudMsgs("Note updated sucessfully ");
+      }); 
+    } 
   } 
 
   // adding comment
-  addComment(){  
-    
-    if(this.todoComment == undefined)
-      return
-    if(!this.todoComment.trim().length)
-      return
-    let now = new Date();
-    let nowUtc = new Date(
-      Date.UTC(
-        now.getUTCFullYear(),
-        now.getUTCMonth(),
-        now.getUTCDate(), 
-        now.getUTCHours(), 
-        now.getUTCMinutes(), 
-        now.getUTCSeconds()
-      )
-    );
+  addComment(){   
+    if(this.todoComment == undefined){
+      this.crudMsgs("Comment must not be empty");
+    }else if(!this.todoComment.trim().length){
+      this.crudMsgs("Comment must not be empty");
+    }else{
+      let now = new Date();
+      let nowUtc = new Date(
+        Date.UTC(
+          now.getUTCFullYear(),
+          now.getUTCMonth(),
+          now.getUTCDate(), 
+          now.getUTCHours(), 
+          now.getUTCMinutes(), 
+          now.getUTCSeconds()
+        )
+      );
 
-    // getting the user info
-    this.afAuth.authState.subscribe(user=>{
-      if(user){
-        this.user = user;
-      } 
-      var comment = [{
-        "comment"   : this.todoComment,
-        "date"      : nowUtc,
-        "commentor" : this.user.displayName
-      }];
-      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-        comments : this.items['comments'].concat(comment)
-      }, {merge: true}).then(()=>{
-        this.crudMsgs("Comment added ").then(()=>{
-          this.todoComment = null; 
-        }); 
+      // getting the user info
+      this.afAuth.authState.subscribe(user=>{
+        if(user){
+          this.user = user;
+        } 
+        var comment = [{
+          "comment"   : this.todoComment,
+          "date"      : nowUtc,
+          "commentor" : this.user.displayName
+        }];
+        this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+          comments : this.items['comments'].concat(comment)
+        }, {merge: true}).then(()=>{
+          this.crudMsgs("Comment added successfully ").then(()=>{
+            this.todoComment = null; 
+          }); 
+        });
+        
       });
-      
-    });
+    }
+    
   }
 
   deleteComment(indexComment,itemId?){  
     var deletecomments = this.items['comments'].splice(indexComment,1); 
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       comments : this.items['comments']
-    }, {merge: true}).then(()=>{
-      this.crudMsgs("Deleted ");
+    }, {merge: true}).then(()=>{ 
+      this.crudMsgs("Deleted successfully");
     });  
   }
 
 
-  addSubtask(){
- 
-    if(this.todoSubtask == undefined)
-      return
-    if(!this.todoSubtask.trim().length)
-      return
-    
-    var subTask = [{
-      "content"   : this.todoSubtask,
-      "status"    : false,
-      "pos"       : this.items['subTasks'].length ? this.items['subTasks'].length: 0,
-    }];
-     
-    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      subTasks : this.items['subTasks'].concat(subTask)
-    }, {merge: true}).then(()=>{
-      this.crudMsgs("Subtask added ")
-    }).then(()=>{
-      this.todoSubtask = null;
-    });  
+  addSubtask(){  
+    if(this.todoSubtask == undefined){
+      this.crudMsgs("Subtask must not be empty");
+    }else if(this.todoSubtask.trim().length == 0){
+      this.crudMsgs("Subtask must not be empty");
+    }else{
+      var subTask = [{
+        "content"   : this.todoSubtask,
+        "status"    : false,
+        "pos"       : this.items['subTasks'].length ? this.items['subTasks'].length: 0,
+      }];
+       
+      this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+        subTasks : this.items['subTasks'].concat(subTask)
+      }, {merge: true}).then(()=>{
+        this.crudMsgs("Subtask added successfully")
+      }).then(()=>{
+        this.todoSubtask = null;
+      }); 
+    } 
   }
 
   updateSelectedSubtask(index,subtaskContent){
@@ -253,7 +261,7 @@ export class TodoDetailsPage implements OnInit {
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       subTasks : this.items['subTasks']
     }, {merge: true}).then(()=>{
-      this.crudMsgs("Subtask updated ")
+      this.crudMsgs("Subtask updated successfully")
     }).then(()=>{
       this.todoSubtask = null;
     }); 
@@ -273,7 +281,7 @@ export class TodoDetailsPage implements OnInit {
     this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
       subTasks : this.items['subTasks']
     }, {merge: true}).then(()=>{
-      this.crudMsgs("Subtask deleted ")
+      this.crudMsgs("Subtask deleted successfully")
     }).then(()=>{
       this.todoSubtask = null;
     }); 
@@ -289,7 +297,7 @@ export class TodoDetailsPage implements OnInit {
           text: 'Yes', 
           handler: () => {
             this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+itemId).delete();
-            this.crudMsgs("Deleted");  
+            this.crudMsgs("Deleted successfully.");  
             this.router.navigateByUrl('');   
           }
         },
@@ -306,7 +314,7 @@ export class TodoDetailsPage implements OnInit {
 
   async crudMsgs(msg:string) {
     const toast = await this.toastCtrl.create({
-      message: msg + ' successfully.',
+      message: msg ,
       duration: 1500,
       showCloseButton: true,
       closeButtonText: 'Ok',

@@ -145,7 +145,7 @@ export class ListComponent implements OnInit {
 
   
  
-  async presentActionSheet(item) {
+  async presentActionSheet(item) { 
     const actionSheet = await this.actionSheetController.create({
       header: 'Move to',  
       animated: true,
