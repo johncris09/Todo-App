@@ -8,12 +8,15 @@
     <ion-spinner name="dots" *ngIf="loading" color="primary"></ion-spinner>  
     <ion-item-sliding *ngFor="let item of items; let i = index"> 
 
-      <ion-item class="item" (press)="onPress($event)" (pressup)="onPressUp(item)">  
+      <ion-item class="item" >  
         <ion-button (click)="showTodoDetails(item)" slot="end" fill="clear">
           <ion-icon slot="icon-only" mode="ios" color="medium"  name="arrow-forward"></ion-icon>
         </ion-button>
-        <ion-label>{{item.text}}</ion-label>  
-        <ion-checkbox id="todo-check" slot="start" title="Move to Completed"  color="primary"></ion-checkbox>
+        <ion-label (press)="onPress($event)" (pressup)="onPressUp(item)">{{item.text}}</ion-label>   
+         
+        <ion-button  slot="start" fill="clear"> 
+          <ion-checkbox (click)="complete(item)" ></ion-checkbox>
+        </ion-button>
       </ion-item>  
       <ion-item-options side="start" > 
         <ion-item-option color="tertiary"   title="Move to Up" (click)="moveByOffset(i, -1)" *ngIf="i !== 0">
