@@ -42,3 +42,15 @@ h4{
 ion-icon[name="close"]:hover{
   color: red;
 }
+ 
+.subTasks{
+  margin-left: 1.5em;
+  font-size: 14px;
+  --color : DimGrey; 
+}
+ 
+ .comment{
+  --color: DimGrey;
+  text-indent: 10px;
+  font-size: 14px;
+ }

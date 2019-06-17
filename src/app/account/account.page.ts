@@ -24,9 +24,7 @@ export class AccountPage implements OnInit {
     this.afAuth.authState.subscribe(user=>{
       if(user){
         this.user = user;  
-      }       
-
-      console.log(this.user);
+      }        
       this.user.profilePic = this.user.photoURL == null ?  'https://img.icons8.com/office/480/000000/user.png' : this.user.photoURL+'?type=large';  
     });
   }

@@ -130,7 +130,7 @@ export class TodoDetailsPage implements OnInit {
       return this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
         dueDate: (setDue.getMonth() + 1) + '/' + setDue.getDate() + '/' +  setDue.getFullYear()
       }, {merge: true}).then(()=>{
-        this.dateAndTimeReminderMsgs("Due date is set");
+        // this.dateAndTimeReminderMsgs("Due date is set");
       });
     }else{ 
       this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
@@ -222,15 +222,34 @@ export class TodoDetailsPage implements OnInit {
       });
     }
     
-  }
+  } 
 
-  deleteComment(indexComment,itemId?){  
-    var deletecomments = this.items['comments'].splice(indexComment,1); 
-    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      comments : this.items['comments']
-    }, {merge: true}).then(()=>{ 
-      this.crudMsgs("Deleted successfully");
-    });  
+
+  async deleteComment(indexComment,itemId?, comment?){ 
+    let alert = await this.alertCtrl.create({
+      header: 'Delete',
+      message: 'Do you want to delete this comment ?', 
+      buttons: [
+        {
+          text: 'Yes', 
+          handler: () => {
+            var deletecomments = this.items['comments'].splice(indexComment,1); 
+            this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+              comments : this.items['comments']
+            }, {merge: true}).then(()=>{ 
+              this.crudMsgs("Deleted successfully");
+            });
+          }
+        },
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => { 
+          }
+        }
+      ]
+    });
+    alert.present(); 
   }
 
 
@@ -276,17 +295,35 @@ export class TodoDetailsPage implements OnInit {
     this.todoSubtask = null;    
   }
 
-  deleteSubtask(subtaskIndex,itemId){
-    this.items['subTasks'].splice(subtaskIndex,1); 
-    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
-      subTasks : this.items['subTasks']
-    }, {merge: true}).then(()=>{
-      this.crudMsgs("Subtask deleted successfully")
-    }).then(()=>{
-      this.todoSubtask = null;
-    }); 
-  }
 
+  async deleteSubtask(subtaskIndex,itemId, subtask_content?){ 
+    let alert = await this.alertCtrl.create({
+      header: 'Delete',
+      message: 'Do you want to delete this Subtask "' + subtask_content + '" ?', 
+      buttons: [
+        {
+          text: 'Yes', 
+          handler: () => {
+            this.items['subTasks'].splice(subtaskIndex,1); 
+            this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+              subTasks : this.items['subTasks']
+            }, {merge: true}).then(()=>{
+              this.crudMsgs("Subtask deleted successfully")
+            }).then(()=>{
+              this.todoSubtask = null;
+            });
+          }
+        },
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => { 
+          }
+        }
+      ]
+    });
+    alert.present(); 
+  }
 
   async deleteTodo(itemId){
     let alert = await this.alertCtrl.create({

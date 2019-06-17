@@ -210,3 +210,19 @@ cannot sign in with different account
         prompt: 'select_account'
       }
     }, 
+
+
+
+
+
+
+  deleteSubtask(subtaskIndex,itemId){
+    this.items['subTasks'].splice(subtaskIndex,1); 
+    this.db.doc('users/'+this.afAuth.auth.currentUser.uid+'/'+this.name+'/'+this.items['id']).set({
+      subTasks : this.items['subTasks']
+    }, {merge: true}).then(()=>{
+      this.crudMsgs("Subtask deleted successfully")
+    }).then(()=>{
+      this.todoSubtask = null;
+    }); 
+  }
