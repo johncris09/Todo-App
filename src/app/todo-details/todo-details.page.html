@@ -1,4 +1,4 @@
-<ion-toolbar  color="primary">
+  <ion-toolbar  color="primary">
     <ion-title>
       Todo Details
     </ion-title>
@@ -10,19 +10,154 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-content> 
-    <ion-grid>
-      <!-- Todo Name -->
-      <ion-row>
-        <ion-col size="12">
-          <ion-item lines="inset">
-            <ion-checkbox mode="md" slot="start" title="Move to Completed" (click)="completed(items)" color="primary"></ion-checkbox>
-            <ion-input [(ngModel)]="todoName" (keyup.enter)="updateTodo()"  value="{{ items.text }}" placeholder="My Task"></ion-input>
-          </ion-item> 
-        </ion-col> 
+   <ion-item class="ion-card">
+      <ion-checkbox mode="md" slot="start" title="Move to Completed" (click)="completed(items)" color="primary"></ion-checkbox>
+      <ion-input clsas="todoName"  [(ngModel)]="todoName" (keyup.enter)="updateTodo()"  value="{{ items.text }}" placeholder="My Task"></ion-input>
+    </ion-item> 
+
+    <ion-grid>  
+
+      <!-- Date and Reminder -->
+      <ion-row class="row">
+        <ion-col>
+          <ion-item-group  lines="full">  
+            <ion-item class="DateAndReminder" >
+              <ion-icon color="primary" slot="start" name="calendar"></ion-icon>
+              <ion-label>Due on</ion-label>
+              <ion-datetime [(ngModel)]="todoCal"   (ionChange)="updateTodoCal()" display-format="MMMM/DD/YYYY" picker-format="MMM DD, YYYY"></ion-datetime>
+            </ion-item>
+            <ion-item class="DateAndReminder" >
+              <ion-icon color="primary" slot="start" name="alarm"></ion-icon> 
+              <ion-label>Remind me at</ion-label> 
+              <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime(items)" displayFormat="hh:mm A" picker-format="hh mm A"></ion-datetime>
+            </ion-item> 
+          </ion-item-group>  
+        </ion-col>
       </ion-row>
 
+      <ion-item class="itemNote">
+        <!-- <ion-icon color="medium" slot="start" name="bookmarks" mode="ios"></ion-icon> -->
+        <ion-label  position="stacked">Note</ion-label>
+        <ion-textarea class="note" [(ngModel)]="todoNote"  (keyup.enter)="updateTodoNote()"></ion-textarea> 
+      </ion-item> 
+
+      <!-- Subtask -->
+      <ion-row class="row">
+        <ion-col>
+          <ion-item-group  lines="full">  
+            <ion-item >
+              <ion-button (click)="addSubtask()" title="Add Subtask" slot="start" fill="clear">
+                <ion-icon slot="icon-only" color="primary"  name="add"></ion-icon>
+              </ion-button>
+              <ion-textarea [(ngModel)]="todoSubtask" placeholder="Add Subtask" rows="1"></ion-textarea> 
+              <ion-buttons  slot="end">
+                <ion-button (click)="addSubtask()" title="Add Subtask">
+                  <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item> 
+            <ion-item class="subTasks" *ngFor="let subtask of items.subTasks; let i = index" >
+              <div *ngIf="subtask.status == true" >
+                <ion-checkbox  (click)="toggleSubtasks(i,subtask.status)" slot="start" [checked]="true"  mode="md"  color="primary"></ion-checkbox>
+              </div>
+              <div *ngIf="subtask.status == false" > 
+                <ion-checkbox slot="start" (click)="toggleSubtasks(i,subtask.status)"  [checked]="false"  mode="md"  color="primary"></ion-checkbox> 
+              </div> 
+              <div *ngIf="subtask.status == true" >
+                <ion-input  (keyup.enter)="updateSelectedSubtask(i,$event.target.value)" id="strike"  value="{{ subtask.content }}" rows="1"></ion-input>
+              </div>
+              <div *ngIf="subtask.status == false" > 
+                <ion-input   (keyup.enter)="updateSelectedSubtask(i,$event.target.value)"  value="{{ subtask.content }}" rows="1"></ion-input>  
+              </div>  
+              <ion-button (click)="deleteSubtask(i,items.id,subtask.content)" title="Delete subtask" slot="end" fill="clear">
+                <ion-icon slot="icon-only" color="primary"  name="close"></ion-icon>
+              </ion-button>
+            </ion-item> 
+          </ion-item-group>  
+        </ion-col>
+      </ion-row>
+
+      <!-- Comments -->
+      <ion-row class="row">
+        <ion-col>
+          <ion-item-group  lines="full">  
+            <ion-item >
+              <ion-label position="floating">Add a comment</ion-label>
+              <ion-textarea  [(ngModel)]="todoComment" (keyup.enter)="addComment()"  rows="2" ></ion-textarea>
+              <ion-buttons  slot="end">
+                <ion-button (click)="addComment()" title="Send comment">
+                  <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+            <ion-item *ngFor="let comment of items.comments ; let i = index" lines="inset">
+              <ion-thumbnail slot="start">
+                <img class="commentor" align="top"  [src]="user.profilePic" alt="Profile Picture"/>
+              </ion-thumbnail> 
+              <ion-label>
+                <ion-text color="dark">{{ comment.commentor }}  </ion-text>
+                <p><small>Posted at {{ comment.date.toDate() | date: 'MMM dd, yyyy HH:mm a' }}</small></p>
+                <ion-label class="comment" text-wrap >{{ comment.comment}}</ion-label>
+              </ion-label>
+              <ion-button (click)="deleteComment(i,items.id,comment.comment)" title="Delete comment" slot="end" fill="clear">
+                <ion-icon slot="icon-only" color="primary"  name="close"></ion-icon>
+              </ion-button> 
+            </ion-item>
+             
+          </ion-item-group>  
+        </ion-col>
+      </ion-row>
+
+      <!-- Subtask -->
+      <!-- <ion-row class="row">
+        <ion-col>
+          <ion-item-group  >  
+            <ion-item >
+              <ion-button (click)="addSubtask()" title="Add Subtask" slot="start" fill="clear">
+                <ion-icon slot="icon-only" color="primary"  name="add"></ion-icon>
+              </ion-button>
+              <ion-textarea [(ngModel)]="todoSubtask" placeholder="Add Subtask" rows="1"></ion-textarea> 
+              <ion-buttons  slot="end">
+                <ion-button (click)="addSubtask()" title="Add Subtask">
+                  <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item> 
+          </ion-item-group>  
+        </ion-col>
+      </ion-row> -->
+      <!-- Add Note -->
+      <!-- <ion-row class="row">
+        <ion-col>
+          <ion-item-group>  
+            <ion-item class="ion-card">
+              <ion-icon color="medium" slot="start" name="bookmarks" mode="ios"></ion-icon>
+              <ion-label  position="stacked">Note</ion-label>
+              <ion-textarea class="note" [(ngModel)]="todoNote" rows="4" (keyup.enter)="updateTodoNote()"></ion-textarea>
+              <ion-buttons  slot="end">
+                <ion-button (click)="updateTodoNote()" title="Save Note">
+                  <ion-icon class="ion-margin-top"   name="send"  color="medium"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item> 
+          </ion-item-group>  
+        </ion-col>
+      </ion-row> -->
+
+      <!-- Todo Name -->
+       <!--  <ion-row>
+          <ion-col size="12"> 
+            <ion-item lines="inset">
+              <ion-checkbox mode="md" slot="start" title="Move to Completed" (click)="completed(items)" color="primary"></ion-checkbox>
+              <ion-input [(ngModel)]="todoName" (keyup.enter)="updateTodo()"  value="{{ items.text }}" placeholder="My Task"></ion-input>
+            </ion-item> 
+          </ion-col> 
+        </ion-row>
+         -->
+      
+
       <!-- Add Date Reminder -->
-      <ion-row>
+      <!-- ion-row>
         <ion-col size="12">
           <ion-item lines="inset">
             <ion-icon color="primary" slot="start" name="calendar"></ion-icon>
@@ -30,10 +165,10 @@
             <ion-datetime [(ngModel)]="todoCal"   (ionChange)="updateTodoCal()" display-format="MMMM/DD/YYYY" picker-format="MMM DD, YYYY"></ion-datetime>
           </ion-item> 
         </ion-col> 
-      </ion-row>
+      </ion-row> -->
 
       <!-- Add Time Reminder -->
-      <ion-row>
+      <!-- <ion-row>
         <ion-col size="12">
           <ion-item lines="none">
             <ion-icon color="primary" slot="start" name="alarm"></ion-icon>
@@ -41,15 +176,15 @@
             <ion-datetime  [(ngModel)]="todoTime"  (ionChange)="updateTodoTime(items)" displayFormat="hh:mm A" picker-format="hh mm A"></ion-datetime>
           </ion-item>  
         </ion-col> 
-      </ion-row> 
+      </ion-row>  -->
 
       <!-- Add Todo Note -->
-      <ion-row>
+      <!-- <ion-row>
         <ion-col size="12">
           <ion-item lines="inset">
             <ion-icon color="primary" slot="start" name="bookmarks" mode="ios"></ion-icon>
             <ion-label  position="floating">Note</ion-label>
-            <ion-textarea  [(ngModel)]="todoNote" rows="2" (keyup.enter)="updateTodoNote()"></ion-textarea>
+            <ion-textarea class="note" [(ngModel)]="todoNote" rows="2" (keyup.enter)="updateTodoNote()"></ion-textarea>
             <ion-buttons  slot="end">
               <ion-button (click)="updateTodoNote()" title="Save Note">
                 <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
@@ -57,10 +192,10 @@
             </ion-buttons>
           </ion-item> 
         </ion-col> 
-      </ion-row>
+      </ion-row> -->
 
       <!-- Add Subtask -->
-      <ion-row>
+      <!-- <ion-row>
         <ion-col size="12">
           <ion-item lines="inset">
             <ion-button (click)="addSubtask()" title="Add Subtask" slot="start" fill="clear">
@@ -74,12 +209,12 @@
             </ion-buttons>
           </ion-item>  
         </ion-col> 
-      </ion-row>
+      </ion-row> -->
       
       <!-- List of Subtask --> 
-      <ion-row  >
-        <ion-col size="12" *ngFor="let subtask of items.subTasks; let i = index" >
-          <ion-item   lines="inset">
+      <!-- <ion-row  >
+        <ion-col size="12"  >
+          <ion-item *ngFor="let subtask of items.subTasks; let i = index" >
             <div *ngIf="subtask.status == true" >
               <ion-checkbox  (click)="toggleSubtasks(i,subtask.status)" slot="start" [checked]="true"  mode="md"  color="primary"></ion-checkbox> 
             </div>
@@ -98,10 +233,10 @@
             </ion-button>
           </ion-item> 
         </ion-col>  
-      </ion-row> 
+      </ion-row>  -->
 
       <!-- Add Comment -->
-      <ion-row>
+      <!-- <ion-row>
         <ion-col> 
           <ion-item lines="inset">
             <ion-label position="floating">Add a comment</ion-label>
@@ -113,13 +248,13 @@
             </ion-buttons>
           </ion-item>
         </ion-col>
-      </ion-row> 
+      </ion-row>  -->
 
 
       <!-- Comment here -->
-      <ion-row> 
-        <ion-col size="12"  *ngFor="let comment of items.comments ; let i = index">
-          <ion-item lines="inset">
+      <!-- <ion-row> 
+        <ion-col size="12"  >
+          <ion-item *ngFor="let comment of items.comments ; let i = index" lines="inset">
             <ion-thumbnail slot="start">
               <img class="commentor" align="top"  [src]="user.profilePic" alt="Profile Picture"/>
             </ion-thumbnail> 
@@ -133,7 +268,7 @@
             </ion-button> 
           </ion-item>
         </ion-col>   
-      </ion-row>
+      </ion-row> -->
       
     </ion-grid>  
   </ion-content>  

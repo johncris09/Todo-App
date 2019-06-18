@@ -1,3 +1,5 @@
+ 
+
 .comment-close:hover{
   color: #f04141;
 }
@@ -47,10 +49,45 @@ ion-icon[name="close"]:hover{
   margin-left: 1.5em;
   font-size: 14px;
   --color : DimGrey; 
+}  
+.row{
+  border:  1px solid #ECEBEB;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  margin-bottom: 5%;
 }
- 
- .comment{
-  --color: DimGrey;
-  text-indent: 10px;
-  font-size: 14px;
- }
+.todoName{
+  --padding-bottom: 5px;
+  --padding-top: 100px;
+} 
+
+
+.ion-card{
+  background-color: #101218;
+  border:  1px solid #ECEBEB;  
+  margin-bottom: 5%; 
+}
+
+ion-textarea.note{
+  height: 80px;
+  line-height: 22px;
+  background: repeating-linear-gradient(
+  0,
+  #dadcd7,
+  #dadcd7 1px, /*line*/
+  #f0f1a5 1px,
+  #f0f1a5 25px
+);
+ color: #000000; 
+}
+
+.itemNote{
+  margin-left: 10px;
+  margin-right: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  margin-bottom: 5%;
+  padding-bottom: 10px;
+}

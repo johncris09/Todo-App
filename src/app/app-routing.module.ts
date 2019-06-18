@@ -63,7 +63,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/todo',
+        redirectTo: '/tabs/todo/todo-details/YsRQXLSGPmalfqcmaio0/0',
         pathMatch : 'full'
       }
     ]
