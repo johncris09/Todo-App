@@ -1,6 +1,7 @@
 # Todo App
-
-<img src="https://prnt.sc/o3m777" />
+<p align="center">
+  <img src="src/Todo-App.jpg" width="300" title="Screenshot">
+</p> 
 
 Todo app is an simple hybrid application which you can easily manage your task in a short period of time with no hassle.  
 
