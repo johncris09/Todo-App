@@ -39,6 +39,11 @@
         <!-- <ion-icon color="medium" slot="start" name="bookmarks" mode="ios"></ion-icon> -->
         <ion-label  position="stacked">Note</ion-label>
         <ion-textarea class="note" [(ngModel)]="todoNote"  (keyup.enter)="updateTodoNote()"></ion-textarea> 
+        <ion-buttons  slot="end">
+          <ion-button (click)="updateTodoNote()" title="Save Note">
+            <ion-icon class="ion-margin-top"   name="send"  color="primary"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-item> 
 
       <!-- Subtask -->

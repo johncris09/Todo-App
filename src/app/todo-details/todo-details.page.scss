@@ -21,6 +21,11 @@ ion-icon[name="person"]{
   -moz-border-radius:190px;
   -webkit-border-radius:190px;   
 }
+.comment{
+  --color: DimGrey;
+  text-indent: 10px;
+  font-size: 14px;
+ }
 
 
 ion-icon[name="trash"]{ 
@@ -69,19 +74,19 @@ ion-icon[name="close"]:hover{
   border:  1px solid #ECEBEB;  
   margin-bottom: 5%; 
 }
-
+/*
 ion-textarea.note{
   height: 80px;
   line-height: 22px;
   background: repeating-linear-gradient(
   0,
   #dadcd7,
-  #dadcd7 1px, /*line*/
+  #dadcd7 1px, line
   #f0f1a5 1px,
   #f0f1a5 25px
 );
  color: #000000; 
-}
+}*/
 
 .itemNote{
   margin-left: 10px;
