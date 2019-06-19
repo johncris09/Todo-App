@@ -14,7 +14,7 @@
         </ion-button>
         <ion-label (press)="onPress($event)" (pressup)="onPressUp(item)">{{item.text}}</ion-label>   
          
-        <ion-button  slot="start" fill="clear"> 
+        <ion-button *ngIf="router.url !== '/tabs/done'" slot="start" fill="clear"> 
           <ion-checkbox (click)="complete(item)" ></ion-checkbox>
         </ion-button>
       </ion-item>  

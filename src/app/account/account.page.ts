@@ -41,17 +41,53 @@ export class AccountPage implements OnInit {
   resetPassword(){
     this.afAuth.auth.sendPasswordResetEmail(this.user.email).then(()=>{
       this.presentLoading().then(()=>{
-        this.LogOut();
+        setTimeout(() => {
+          this.emailSent();
+        }, 2100);
       });
-    });
+    });  
   }
 
+  isLoading = false;
   async presentLoading() { 
-    const loadingElement = await this.loadingController.create({
-      message: 'Reseting Your password...',
+    this.isLoading = true;
+    return await this.loadingController.create({
+      message: 'Please wait...',
       spinner: 'crescent',
-      duration: 2000
+      duration: 2000,
+    }).then(a => {
+      a.present().then(() => {
+        console.log('presented');
+        if (!this.isLoading) {
+          a.dismiss().then(() => console.log('abort presenting'));
+        }
+      });
     });
-    return await loadingElement.present();
-  } 
+  }  
+  async dismiss() {
+    this.isLoading = false;
+    return await this.loadingController.dismiss().then(() => console.log('dismissed'));
+  }
+
+  async emailSent(){ 
+    let alert = await this.alertController.create({
+      header: 'Email Sent',
+      message: 'Navigate to your email to change your password. <br/><br/> <br/>  Do you want to Logout?', 
+      buttons: [
+        {
+          text: 'Yes', 
+          handler: () => {
+            this.LogOut();
+          }
+        },
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => { 
+          }
+        }
+      ]
+    });
+    alert.present(); 
+  }
 }
